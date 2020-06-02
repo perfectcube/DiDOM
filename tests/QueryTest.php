@@ -70,7 +70,7 @@ class QueryTest extends TestCase
      */
     public function testBuildXpathWithEmptyArray()
     {
-        Query::buildXpath([]);
+        Query::buildXpath(array());
     }
 
     /**
@@ -132,11 +132,11 @@ class QueryTest extends TestCase
 
     public function containsInvalidCaseSensitiveParameterDataProvider()
     {
-        return [
-            ['foo'],
-            ['TRUE'],
-            ['FALSE'],
-        ];
+        return array(
+            array('foo'),
+            array('TRUE'),
+            array('FALSE'),
+        );
     }
 
     /**
@@ -212,7 +212,7 @@ class QueryTest extends TestCase
     public function testSetCompiled()
     {
         $xpath = "//*[@id='foo']//*[contains(concat(' ', normalize-space(@class), ' '), ' bar ')]//baz";
-        $compiled = ['#foo .bar baz' => $xpath];
+        $compiled = array('#foo .bar baz' => $xpath);
 
         Query::setCompiled($compiled);
 
@@ -221,11 +221,11 @@ class QueryTest extends TestCase
 
     public function testGetCompiled()
     {
-        Query::setCompiled([]);
+        Query::setCompiled(array());
 
         $selector = '#foo .bar baz';
         $xpath = '//*[@id="foo"]//*[contains(concat(" ", normalize-space(@class), " "), " bar ")]//baz';
-        $compiled = [$selector => $xpath];
+        $compiled = array($selector => $xpath);
 
         Query::compile($selector);
 
@@ -234,64 +234,64 @@ class QueryTest extends TestCase
 
     public function compileCssTests()
     {
-        $compiled = [
-            ['a', '//a'],
-            ['foo bar baz', '//foo//bar//baz'],
-            ['foo > bar > baz', '//foo/bar/baz'],
-            ['#foo', '//*[@id="foo"]'],
-            ['.bar', '//*[contains(concat(" ", normalize-space(@class), " "), " bar ")]'],
-            ['*[foo=bar]', '//*[@foo="bar"]'],
-            ['*[foo="bar"]', '//*[@foo="bar"]'],
-            ['*[foo=\'bar\']', '//*[@foo="bar"]'],
-            ['select[name=category] option[selected=selected]', '//select[@name="category"]//option[@selected="selected"]'],
-            ['*[^data-]', '//*[@*[starts-with(name(), "data-")]]'],
-            ['*[^data-=foo]', '//*[@*[starts-with(name(), "data-")]="foo"]'],
-            ['a[href^=https]', '//a[starts-with(@href, "https")]'],
-            ['img[src$=png]', '//img[substring(@src, string-length(@src) - string-length("png") + 1) = "png"]'],
-            ['a[href*=example.com]', '//a[contains(@href, "example.com")]'],
-            ['script[!src]', '//script[not(@src)]'],
-            ['a[href!="http://foo.com/"]', '//a[not(@href="http://foo.com/")]'],
-            ['a[foo~="bar"]', '//a[contains(concat(" ", normalize-space(@foo), " "), " bar ")]'],
-            ['input, textarea, select', '//input|//textarea|//select'],
-            ['input[name="name"], textarea[name="description"], select[name="type"]', '//input[@name="name"]|//textarea[@name="description"]|//select[@name="type"]'],
-            ['li:first-child', '//li[position() = 1]'],
-            ['li:last-child', '//li[position() = last()]'],
-            ['*:not(a[href*="example.com"])', '//*[not(self::a[contains(@href, "example.com")])]'],
-            ['ul:empty', '//ul[count(descendant::*) = 0]'],
-            ['ul:not-empty', '//ul[count(descendant::*) > 0]'],
-            ['li:nth-child(odd)', '//*[(name()="li") and (position() mod 2 = 1 and position() >= 1)]'],
-            ['li:nth-child(even)', '//*[(name()="li") and (position() mod 2 = 0 and position() >= 0)]'],
-            ['li:nth-child(3)', '//*[(name()="li") and (position() = 3)]'],
-            ['li:nth-child(-3)', '//*[(name()="li") and (position() = -3)]'],
-            ['li:nth-child(3n)', '//*[(name()="li") and ((position() + 0) mod 3 = 0 and position() >= 0)]'],
-            ['li:nth-child(3n+1)', '//*[(name()="li") and ((position() - 1) mod 3 = 0 and position() >= 1)]'],
-            ['li:nth-child(3n-1)', '//*[(name()="li") and ((position() + 1) mod 3 = 0 and position() >= 1)]'],
-            ['li:nth-child(n+3)', '//*[(name()="li") and ((position() - 3) mod 1 = 0 and position() >= 3)]'],
-            ['li:nth-child(n-3)', '//*[(name()="li") and ((position() + 3) mod 1 = 0 and position() >= 3)]'],
-            ['li:nth-of-type(odd)', '//li[position() mod 2 = 1 and position() >= 1]'],
-            ['li:nth-of-type(even)', '//li[position() mod 2 = 0 and position() >= 0]'],
-            ['li:nth-of-type(3)', '//li[position() = 3]'],
-            ['li:nth-of-type(-3)', '//li[position() = -3]'],
-            ['li:nth-of-type(3n)', '//li[(position() + 0) mod 3 = 0 and position() >= 0]'],
-            ['li:nth-of-type(3n+1)', '//li[(position() - 1) mod 3 = 0 and position() >= 1]'],
-            ['li:nth-of-type(3n-1)', '//li[(position() + 1) mod 3 = 0 and position() >= 1]'],
-            ['li:nth-of-type(n+3)', '//li[(position() - 3) mod 1 = 0 and position() >= 3]'],
-            ['li:nth-of-type(n-3)', '//li[(position() + 3) mod 1 = 0 and position() >= 3]'],
-            ['ul:has(li.item)', '//ul[.//li[contains(concat(" ", normalize-space(@class), " "), " item ")]]'],
-            ['form[name=register]:has(input[name=foo])', '//form[(@name="register") and (.//input[@name="foo"])]'],
-            ['ul li a::text', '//ul//li//a/text()'],
-            ['ul li a::text()', '//ul//li//a/text()'],
-            ['ul li a::attr(href)', '//ul//li//a/@*[name() = "href"]'],
-            ['ul li a::attr(href, title)', '//ul//li//a/@*[name() = "href" or name() = "title"]'],
-            ['> ul li a', '/ul//li//a'],
-        ];
+        $compiled = array(
+            array('a', '//a'),
+            array('foo bar baz', '//foo//bar//baz'),
+            array('foo > bar > baz', '//foo/bar/baz'),
+            array('#foo', '//*[@id="foo"]'),
+            array('.bar', '//*[contains(concat(" ", normalize-space(@class), " "), " bar ")]'),
+            array('*[foo=bar]', '//*[@foo="bar"]'),
+            array('*[foo="bar"]', '//*[@foo="bar"]'),
+            array('*[foo=\'bar\']', '//*[@foo="bar"]'),
+            array('select[name=category] option[selected=selected]', '//select[@name="category"]//option[@selected="selected"]'),
+            array('*[^data-]', '//*[@*[starts-with(name(), "data-")]]'),
+            array('*[^data-=foo]', '//*[@*[starts-with(name(), "data-")]="foo"]'),
+            array('a[href^=https]', '//a[starts-with(@href, "https")]'),
+            array('img[src$=png]', '//img[substring(@src, string-length(@src) - string-length("png") + 1) = "png"]'),
+            array('a[href*=example.com]', '//a[contains(@href, "example.com")]'),
+            array('script[!src]', '//script[not(@src)]'),
+            array('a[href!="http://foo.com/"]', '//a[not(@href="http://foo.com/")]'),
+            array('a[foo~="bar"]', '//a[contains(concat(" ", normalize-space(@foo), " "), " bar ")]'),
+            array('input, textarea, select', '//input|//textarea|//select'),
+            array('input[name="name"], textarea[name="description"], select[name="type"]', '//input[@name="name"]|//textarea[@name="description"]|//select[@name="type"]'),
+            array('li:first-child', '//li[position() = 1]'),
+            array('li:last-child', '//li[position() = last()]'),
+            array('*:not(a[href*="example.com"])', '//*[not(self::a[contains(@href, "example.com")])]'),
+            array('ul:empty', '//ul[count(descendant::*) = 0]'),
+            array('ul:not-empty', '//ul[count(descendant::*) > 0]'),
+            array('li:nth-child(odd)', '//*[(name()="li") and (position() mod 2 = 1 and position() >= 1)]'),
+            array('li:nth-child(even)', '//*[(name()="li") and (position() mod 2 = 0 and position() >= 0)]'),
+            array('li:nth-child(3)', '//*[(name()="li") and (position() = 3)]'),
+            array('li:nth-child(-3)', '//*[(name()="li") and (position() = -3)]'),
+            array('li:nth-child(3n)', '//*[(name()="li") and ((position() + 0) mod 3 = 0 and position() >= 0)]'),
+            array('li:nth-child(3n+1)', '//*[(name()="li") and ((position() - 1) mod 3 = 0 and position() >= 1)]'),
+            array('li:nth-child(3n-1)', '//*[(name()="li") and ((position() + 1) mod 3 = 0 and position() >= 1)]'),
+            array('li:nth-child(n+3)', '//*[(name()="li") and ((position() - 3) mod 1 = 0 and position() >= 3)]'),
+            array('li:nth-child(n-3)', '//*[(name()="li") and ((position() + 3) mod 1 = 0 and position() >= 3)]'),
+            array('li:nth-of-type(odd)', '//li[position() mod 2 = 1 and position() >= 1]'),
+            array('li:nth-of-type(even)', '//li[position() mod 2 = 0 and position() >= 0]'),
+            array('li:nth-of-type(3)', '//li[position() = 3]'),
+            array('li:nth-of-type(-3)', '//li[position() = -3]'),
+            array('li:nth-of-type(3n)', '//li[(position() + 0) mod 3 = 0 and position() >= 0]'),
+            array('li:nth-of-type(3n+1)', '//li[(position() - 1) mod 3 = 0 and position() >= 1]'),
+            array('li:nth-of-type(3n-1)', '//li[(position() + 1) mod 3 = 0 and position() >= 1]'),
+            array('li:nth-of-type(n+3)', '//li[(position() - 3) mod 1 = 0 and position() >= 3]'),
+            array('li:nth-of-type(n-3)', '//li[(position() + 3) mod 1 = 0 and position() >= 3]'),
+            array('ul:has(li.item)', '//ul[.//li[contains(concat(" ", normalize-space(@class), " "), " item ")]]'),
+            array('form[name=register]:has(input[name=foo])', '//form[(@name="register") and (.//input[@name="foo"])]'),
+            array('ul li a::text', '//ul//li//a/text()'),
+            array('ul li a::text()', '//ul//li//a/text()'),
+            array('ul li a::attr(href)', '//ul//li//a/@*[name() = "href"]'),
+            array('ul li a::attr(href, title)', '//ul//li//a/@*[name() = "href" or name() = "title"]'),
+            array('> ul li a', '/ul//li//a'),
+        );
 
         $compiled = array_merge($compiled, $this->getContainsPseudoClassTests());
         $compiled = array_merge($compiled, $this->getPropertiesTests());
 
-        $compiled = array_merge($compiled, [
-            ['a[title="foo, bar::baz"]', '//a[@title="foo, bar::baz"]'],
-        ]);
+        $compiled = array_merge($compiled, array(
+            array('a[title="foo, bar::baz"]', '//a[@title="foo, bar::baz"]'),
+        ));
 
         return $compiled;
     }
@@ -300,62 +300,62 @@ class QueryTest extends TestCase
     {
         $strToLowerFunction = function_exists('mb_strtolower') ? 'mb_strtolower' : 'strtolower';
 
-        $containsXpath = [
+        $containsXpath = array(
             // caseSensitive = true, fullMatch = false
-            ['li:contains(foo)', '//li[contains(text(), "foo")]'],
-            ['li:contains("foo")', '//li[contains(text(), "foo")]'],
-            ['li:contains(\'foo\')', '//li[contains(text(), "foo")]'],
+            array('li:contains(foo)', '//li[contains(text(), "foo")]'),
+            array('li:contains("foo")', '//li[contains(text(), "foo")]'),
+            array('li:contains(\'foo\')', '//li[contains(text(), "foo")]'),
 
             // caseSensitive = true, fullMatch = false
-            ['li:contains(foo, true)', '//li[contains(text(), "foo")]'],
-            ['li:contains("foo", true)', '//li[contains(text(), "foo")]'],
-            ['li:contains(\'foo\', true)', '//li[contains(text(), "foo")]'],
+            array('li:contains(foo, true)', '//li[contains(text(), "foo")]'),
+            array('li:contains("foo", true)', '//li[contains(text(), "foo")]'),
+            array('li:contains(\'foo\', true)', '//li[contains(text(), "foo")]'),
 
             // caseSensitive = true, fullMatch = false
-            ['li:contains(foo, true, false)', '//li[contains(text(), "foo")]'],
-            ['li:contains("foo", true, false)', '//li[contains(text(), "foo")]'],
-            ['li:contains(\'foo\', true, false)', '//li[contains(text(), "foo")]'],
+            array('li:contains(foo, true, false)', '//li[contains(text(), "foo")]'),
+            array('li:contains("foo", true, false)', '//li[contains(text(), "foo")]'),
+            array('li:contains(\'foo\', true, false)', '//li[contains(text(), "foo")]'),
 
             // caseSensitive = true, fullMatch = true
-            ['li:contains(foo, true, true)', '//li[text() = "foo"]'],
-            ['li:contains("foo", true, true)', '//li[text() = "foo"]'],
-            ['li:contains(\'foo\', true, true)', '//li[text() = "foo"]'],
+            array('li:contains(foo, true, true)', '//li[text() = "foo"]'),
+            array('li:contains("foo", true, true)', '//li[text() = "foo"]'),
+            array('li:contains(\'foo\', true, true)', '//li[text() = "foo"]'),
 
             // caseSensitive = false, fullMatch = false
-            ['li:contains(foo, false)', "//li[contains(php:functionString(\"{$strToLowerFunction}\", .), php:functionString(\"{$strToLowerFunction}\", \"foo\"))]"],
-            ['li:contains("foo", false)', "//li[contains(php:functionString(\"{$strToLowerFunction}\", .), php:functionString(\"{$strToLowerFunction}\", \"foo\"))]"],
-            ['li:contains(\'foo\', false)', "//li[contains(php:functionString(\"{$strToLowerFunction}\", .), php:functionString(\"{$strToLowerFunction}\", \"foo\"))]"],
+            array('li:contains(foo, false)', "//li[contains(php:functionString(\"{$strToLowerFunction}\", .), php:functionString(\"{$strToLowerFunction}\", \"foo\"))]"),
+            array('li:contains("foo", false)', "//li[contains(php:functionString(\"{$strToLowerFunction}\", .), php:functionString(\"{$strToLowerFunction}\", \"foo\"))]"),
+            array('li:contains(\'foo\', false)', "//li[contains(php:functionString(\"{$strToLowerFunction}\", .), php:functionString(\"{$strToLowerFunction}\", \"foo\"))]"),
 
             // caseSensitive = false, fullMatch = false
-            ['li:contains(foo, false, false)', "//li[contains(php:functionString(\"{$strToLowerFunction}\", .), php:functionString(\"{$strToLowerFunction}\", \"foo\"))]"],
-            ['li:contains("foo", false, false)', "//li[contains(php:functionString(\"{$strToLowerFunction}\", .), php:functionString(\"{$strToLowerFunction}\", \"foo\"))]"],
-            ['li:contains(\'foo\', false, false)', "//li[contains(php:functionString(\"{$strToLowerFunction}\", .), php:functionString(\"{$strToLowerFunction}\", \"foo\"))]"],
+            array('li:contains(foo, false, false)', "//li[contains(php:functionString(\"{$strToLowerFunction}\", .), php:functionString(\"{$strToLowerFunction}\", \"foo\"))]"),
+            array('li:contains("foo", false, false)', "//li[contains(php:functionString(\"{$strToLowerFunction}\", .), php:functionString(\"{$strToLowerFunction}\", \"foo\"))]"),
+            array('li:contains(\'foo\', false, false)', "//li[contains(php:functionString(\"{$strToLowerFunction}\", .), php:functionString(\"{$strToLowerFunction}\", \"foo\"))]"),
 
             // caseSensitive = false, fullMatch = true
-            ['li:contains(foo, false, true)', "//li[php:functionString(\"{$strToLowerFunction}\", .) = php:functionString(\"{$strToLowerFunction}\", \"foo\")]"],
-            ['li:contains("foo", false, true)', "//li[php:functionString(\"{$strToLowerFunction}\", .) = php:functionString(\"{$strToLowerFunction}\", \"foo\")]"],
-            ['li:contains(\'foo\', false, true)', "//li[php:functionString(\"{$strToLowerFunction}\", .) = php:functionString(\"{$strToLowerFunction}\", \"foo\")]"],
-        ];
+            array('li:contains(foo, false, true)', "//li[php:functionString(\"{$strToLowerFunction}\", .) = php:functionString(\"{$strToLowerFunction}\", \"foo\")]"),
+            array('li:contains("foo", false, true)', "//li[php:functionString(\"{$strToLowerFunction}\", .) = php:functionString(\"{$strToLowerFunction}\", \"foo\")]"),
+            array('li:contains(\'foo\', false, true)', "//li[php:functionString(\"{$strToLowerFunction}\", .) = php:functionString(\"{$strToLowerFunction}\", \"foo\")]"),
+        );
 
         return $containsXpath;
     }
 
     private function getPropertiesTests()
     {
-        return [
-            ['a::text', '//a/text()'],
-            ['a::text()', '//a/text()'],
-            ['a::attr', '//a/@*'],
-            ['a::attr()', '//a/@*'],
-            ['a::attr(href)', '//a/@*[name() = "href"]'],
-            ['a::attr(href,title)', '//a/@*[name() = "href" or name() = "title"]'],
-            ['a::attr(href, title)', '//a/@*[name() = "href" or name() = "title"]'],
-        ];
+        return array(
+            array('a::text', '//a/text()'),
+            array('a::text()', '//a/text()'),
+            array('a::attr', '//a/@*'),
+            array('a::attr()', '//a/@*'),
+            array('a::attr(href)', '//a/@*[name() = "href"]'),
+            array('a::attr(href,title)', '//a/@*[name() = "href" or name() = "title"]'),
+            array('a::attr(href, title)', '//a/@*[name() = "href" or name() = "title"]'),
+        );
     }
 
     public function buildXpathTests()
     {
-        $xpath = [
+        $xpath = array(
             '//a',
             '//*[@id="foo"]',
             '//a[@id="foo"]',
@@ -371,30 +371,30 @@ class QueryTest extends TestCase
             '//script[not(@src)]',
             '//li[position() = 1]',
             '//*[(@id="id") and (contains(concat(" ", normalize-space(@class), " "), " foo ")) and (@name="value") and (position() = 1)]',
-        ];
+        );
 
-        $segments = [
-            ['tag' => 'a'],
-            ['id' => 'foo'],
-            ['tag' => 'a', 'id' => 'foo'],
-            ['tag' => 'a', 'classes' => ['foo']],
-            ['tag' => 'a', 'classes' => ['foo', 'bar']],
-            ['tag' => 'a', 'attributes' => ['href' => null]],
-            ['tag' => 'a', 'attributes' => ['href' => 'http://example.com/']],
-            ['tag' => 'a', 'attributes' => ['href' => 'http://example.com/', 'title' => 'Example Domain']],
-            ['tag' => 'a', 'attributes' => ['target' => '_blank', 'href^' => 'https']],
-            ['tag' => 'a', 'attributes' => ['href$' => '.com']],
-            ['tag' => 'a', 'attributes' => ['href*' => 'example']],
-            ['tag' => 'a', 'attributes' => ['href!' => 'http://foo.com/']],
-            ['tag' => 'script', 'attributes' => ['!src' => null]],
-            ['tag' => 'li', 'pseudo' => 'first-child'],
-            ['tag' => '*', 'id' => 'id', 'classes' => ['foo'], 'attributes' => ['name' => 'value'], 'pseudo' => 'first-child', 'rel' => '>'],
-        ];
+        $segments = array(
+            array('tag' => 'a'),
+            array('id' => 'foo'),
+            array('tag' => 'a', 'id' => 'foo'),
+            array('tag' => 'a', 'classes' => array('foo')),
+            array('tag' => 'a', 'classes' => array('foo', 'bar')),
+            array('tag' => 'a', 'attributes' => array('href' => null)),
+            array('tag' => 'a', 'attributes' => array('href' => 'http://example.com/')),
+            array('tag' => 'a', 'attributes' => array('href' => 'http://example.com/', 'title' => 'Example Domain')),
+            array('tag' => 'a', 'attributes' => array('target' => '_blank', 'href^' => 'https')),
+            array('tag' => 'a', 'attributes' => array('href$' => '.com')),
+            array('tag' => 'a', 'attributes' => array('href*' => 'example')),
+            array('tag' => 'a', 'attributes' => array('href!' => 'http://foo.com/')),
+            array('tag' => 'script', 'attributes' => array('!src' => null)),
+            array('tag' => 'li', 'pseudo' => 'first-child'),
+            array('tag' => '*', 'id' => 'id', 'classes' => array('foo'), 'attributes' => array('name' => 'value'), 'pseudo' => 'first-child', 'rel' => '>'),
+        );
 
-        $parameters = [];
+        $parameters = array();
 
         foreach ($segments as $index => $segment) {
-            $parameters[] = [$segment, $xpath[$index]];
+            $parameters[] = array($segment, $xpath[$index]);
         }
 
         return $parameters;
@@ -402,29 +402,29 @@ class QueryTest extends TestCase
 
     public function getSegmentsTests()
     {
-        $segments = [
-            ['selector' => 'a', 'tag' => 'a'],
-            ['selector' => '#foo', 'id' => 'foo'],
-            ['selector' => 'a#foo', 'tag' => 'a', 'id' => 'foo'],
-            ['selector' => 'a.foo', 'tag' => 'a', 'classes' => ['foo']],
-            ['selector' => 'a.foo.bar', 'tag' => 'a', 'classes' => ['foo', 'bar']],
-            ['selector' => 'a[href]', 'tag' => 'a', 'attributes' => ['href' => null]],
-            ['selector' => 'a[href=http://example.com/]', 'tag' => 'a', 'attributes' => ['href' => 'http://example.com/']],
-            ['selector' => 'a[href="http://example.com/"]', 'tag' => 'a', 'attributes' => ['href' => 'http://example.com/']],
-            ['selector' => 'a[href=\'http://example.com/\']', 'tag' => 'a', 'attributes' => ['href' => 'http://example.com/']],
-            ['selector' => 'a[href=http://example.com/][title=Example Domain]', 'tag' => 'a', 'attributes' => ['href' => 'http://example.com/', 'title' => 'Example Domain']],
-            ['selector' => 'a[href=http://example.com/][href=http://example.com/404]', 'tag' => 'a', 'attributes' => ['href' => 'http://example.com/404']],
-            ['selector' => 'a[href^=https]', 'tag' => 'a', 'attributes' => ['href^' => 'https']],
-            ['selector' => 'li:first-child', 'tag' => 'li', 'pseudo' => 'first-child'],
-            ['selector' => 'ul >', 'tag' => 'ul', 'rel' => '>'],
-            ['selector' => '#id.foo[name=value]:first-child >', 'id' => 'id', 'classes' => ['foo'], 'attributes' => ['name' => 'value'], 'pseudo' => 'first-child', 'rel' => '>'],
-            ['selector' => 'li.bar:nth-child(2n)', 'tag' => 'li', 'classes' => ['bar'], 'pseudo' => 'nth-child', 'expr' => '2n'],
-        ];
+        $segments = array(
+            array('selector' => 'a', 'tag' => 'a'),
+            array('selector' => '#foo', 'id' => 'foo'),
+            array('selector' => 'a#foo', 'tag' => 'a', 'id' => 'foo'),
+            array('selector' => 'a.foo', 'tag' => 'a', 'classes' => array('foo')),
+            array('selector' => 'a.foo.bar', 'tag' => 'a', 'classes' => array('foo', 'bar')),
+            array('selector' => 'a[href]', 'tag' => 'a', 'attributes' => array('href' => null)),
+            array('selector' => 'a[href=http://example.com/]', 'tag' => 'a', 'attributes' => array('href' => 'http://example.com/')),
+            array('selector' => 'a[href="http://example.com/"]', 'tag' => 'a', 'attributes' => array('href' => 'http://example.com/')),
+            array('selector' => 'a[href=\'http://example.com/\']', 'tag' => 'a', 'attributes' => array('href' => 'http://example.com/')),
+            array('selector' => 'a[href=http://example.com/][title=Example Domain]', 'tag' => 'a', 'attributes' => array('href' => 'http://example.com/', 'title' => 'Example Domain')),
+            array('selector' => 'a[href=http://example.com/][href=http://example.com/404]', 'tag' => 'a', 'attributes' => array('href' => 'http://example.com/404')),
+            array('selector' => 'a[href^=https]', 'tag' => 'a', 'attributes' => array('href^' => 'https')),
+            array('selector' => 'li:first-child', 'tag' => 'li', 'pseudo' => 'first-child'),
+            array('selector' => 'ul >', 'tag' => 'ul', 'rel' => '>'),
+            array('selector' => '#id.foo[name=value]:first-child >', 'id' => 'id', 'classes' => array('foo'), 'attributes' => array('name' => 'value'), 'pseudo' => 'first-child', 'rel' => '>'),
+            array('selector' => 'li.bar:nth-child(2n)', 'tag' => 'li', 'classes' => array('bar'), 'pseudo' => 'nth-child', 'expr' => '2n'),
+        );
 
-        $parameters = [];
+        $parameters = array();
 
         foreach ($segments as $segment) {
-            $parameters[] = [$segment['selector'], $segment];
+            $parameters[] = array($segment['selector'], $segment);
         }
 
         return $parameters;

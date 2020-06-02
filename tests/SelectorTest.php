@@ -23,9 +23,9 @@ class SelectorTest extends TestCase
 
         $document = new Document($html);
 
-        $expected = ['Item 1', 'Item 2', 'Item 3', 'Item 1', 'Item 2', 'Item 3'];
+        $expected = array('Item 1', 'Item 2', 'Item 3', 'Item 1', 'Item 2', 'Item 3');
 
-        $result = [];
+        $result = array();
 
         foreach ($document->find('li') as $element) {
             $result[] = $element->text();
@@ -51,9 +51,9 @@ class SelectorTest extends TestCase
 
         $document = new Document($html);
 
-        $expected = ['Item 1', 'Item 2', 'Item 3'];
+        $expected = array('Item 1', 'Item 2', 'Item 3');
 
-        $result = [];
+        $result = array();
 
         foreach ($document->find('ul a') as $element) {
             $result[] = $element->text();
@@ -73,9 +73,9 @@ class SelectorTest extends TestCase
 
         $document = new Document($html);
 
-        $expected = ['Lorem ipsum.'];
+        $expected = array('Lorem ipsum.');
 
-        $result = [];
+        $result = array();
 
         foreach ($document->find('div > span') as $element) {
             $result[] = $element->text();
@@ -94,9 +94,9 @@ class SelectorTest extends TestCase
 
         $document = new Document($html);
 
-        $expected = ['Tenetur totam, nostrum.'];
+        $expected = array('Tenetur totam, nostrum.');
 
-        $result = [];
+        $result = array();
 
         foreach ($document->find('#second') as $element) {
             $result[] = $element->text();
@@ -115,9 +115,9 @@ class SelectorTest extends TestCase
 
         $document = new Document($html);
 
-        $expected = ['Lorem ipsum dolor.', 'Iste, doloremque, praesentium.'];
+        $expected = array('Lorem ipsum dolor.', 'Iste, doloremque, praesentium.');
 
-        $result = [];
+        $result = array();
 
         foreach ($document->find('.odd') as $element) {
             $result[] = $element->text();
@@ -125,9 +125,9 @@ class SelectorTest extends TestCase
 
         $this->assertEquals($expected, $result);
 
-        $expected = ['Iste, doloremque, praesentium.'];
+        $expected = array('Iste, doloremque, praesentium.');
 
-        $result = [];
+        $result = array();
 
         foreach ($document->find('.odd.third') as $element) {
             $result[] = $element->text();
@@ -153,9 +153,9 @@ class SelectorTest extends TestCase
 
         // has attribute
 
-        $expected = ['Foo', 'Qux'];
+        $expected = array('Foo', 'Qux');
 
-        $result = [];
+        $result = array();
 
         foreach ($document->find('a[target]') as $element) {
             $result[] = $element->text();
@@ -165,9 +165,9 @@ class SelectorTest extends TestCase
 
         // has no attribute
 
-        $expected = ['Bar', 'Baz'];
+        $expected = array('Bar', 'Baz');
 
-        $result = [];
+        $result = array();
 
         foreach ($document->find('a[!target]') as $element) {
             $result[] = $element->text();
@@ -177,9 +177,9 @@ class SelectorTest extends TestCase
 
         // equals
 
-        $expected = ['Baz'];
+        $expected = array('Baz');
 
-        $result = [];
+        $result = array();
 
         foreach ($document->find('a[href="https://baz.org"]') as $element) {
             $result[] = $element->text();
@@ -189,9 +189,9 @@ class SelectorTest extends TestCase
 
         // not equals
 
-        $expected = ['Foo', 'Bar', 'Qux'];
+        $expected = array('Foo', 'Bar', 'Qux');
 
-        $result = [];
+        $result = array();
 
         foreach ($document->find('a[href!="https://baz.org"]') as $element) {
             $result[] = $element->text();
@@ -201,9 +201,9 @@ class SelectorTest extends TestCase
 
         // starts with
 
-        $expected = ['Foo', 'Baz'];
+        $expected = array('Foo', 'Baz');
 
-        $result = [];
+        $result = array();
 
         foreach ($document->find('a[href^="https"]') as $element) {
             $result[] = $element->text();
@@ -213,9 +213,9 @@ class SelectorTest extends TestCase
 
         // ends with
 
-        $expected = ['Baz', 'Qux'];
+        $expected = array('Baz', 'Qux');
 
-        $result = [];
+        $result = array();
 
         foreach ($document->find('a[href$="org"]') as $element) {
             $result[] = $element->text();
@@ -225,22 +225,22 @@ class SelectorTest extends TestCase
 
         // contains word
 
-        $expected = ['Bar', 'Baz'];
+        $expected = array('Bar', 'Baz');
 
-        $result = [];
+        $result = array();
 
         foreach ($document->find('a[rel~="noreferrer"]') as $element) {
             $result[] = $element->text();
         }
 
         $this->assertEquals($expected, $result);
-        $this->assertEquals([], $document->find('a[rel~="noref"]'));
+        $this->assertEquals(array(), $document->find('a[rel~="noref"]'));
 
         // contains substring
 
-        $expected = ['Bar', 'Baz'];
+        $expected = array('Bar', 'Baz');
 
-        $result = [];
+        $result = array();
 
         foreach ($document->find('a[href*="ba"]') as $element) {
             $result[] = $element->text();
@@ -250,9 +250,9 @@ class SelectorTest extends TestCase
 
         // multiple attribute conditions
 
-        $expected = ['Qux'];
+        $expected = array('Qux');
 
-        $result = [];
+        $result = array();
 
         foreach ($document->find('a[target="_blank"][rel="nofollow"]') as $element) {
             $result[] = $element->text();
@@ -283,7 +283,7 @@ class SelectorTest extends TestCase
 
         $document = new Document($html);
 
-        $result = [];
+        $result = array();
 
         foreach ($document->find($selector) as $element) {
             $result[] = $element->text();
@@ -294,15 +294,15 @@ class SelectorTest extends TestCase
 
     public function containsPseudoClassTests()
     {
-        return [
-            ['a:contains(Baz)', ['Baz']],
-            ['a:contains(a)', ['Bar', 'Baz', 'FooBar']],
-            ['a:contains(Bar)', ['Bar', 'FooBar']],
-            ['a:contains(Bar, true, true)', ['Bar']],
-            ['a:contains(bar)', []],
-            ['a:contains(bar, false)', ['Bar', 'FooBar']],
-            ['a:contains(bar, false, true)', ['Bar']],
-        ];
+        return array(
+            array('a:contains(Baz)', array('Baz')),
+            array('a:contains(a)', array('Bar', 'Baz', 'FooBar')),
+            array('a:contains(Bar)', array('Bar', 'FooBar')),
+            array('a:contains(Bar, true, true)', array('Bar')),
+            array('a:contains(bar)', array()),
+            array('a:contains(bar, false)', array('Bar', 'FooBar')),
+            array('a:contains(bar, false, true)', array('Bar')),
+        );
     }
 
     public function testUnicodeSupport()

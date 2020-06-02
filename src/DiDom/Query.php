@@ -25,7 +25,7 @@ class Query
      * Converts a CSS selector into an XPath expression.
      *
      * @param string $expression XPath expression or CSS selector
-     * @param string $type The type of the expression
+     * @param string $type       The type of the expression
      *
      * @return string XPath expression
      *
@@ -33,11 +33,11 @@ class Query
      */
     public static function compile($expression, $type = self::TYPE_CSS)
     {
-        if ( ! is_string($expression)) {
+        if (!is_string($expression)) {
             throw new InvalidArgumentException(sprintf('%s expects parameter 1 to be string, %s given', __METHOD__, gettype($expression)));
         }
 
-        if ( ! is_string($type)) {
+        if (!is_string($type)) {
             throw new InvalidArgumentException(sprintf('%s expects parameter 2 to be string, %s given', __METHOD__, gettype($type)));
         }
 
@@ -55,7 +55,7 @@ class Query
             return $expression;
         }
 
-        if ( ! array_key_exists($expression, static::$compiled)) {
+        if (!array_key_exists($expression, static::$compiled)) {
             static::$compiled[$expression] = static::cssToXpath($expression);
         }
 
@@ -66,7 +66,7 @@ class Query
      * Converts a CSS selector into an XPath expression.
      *
      * @param string $selector A CSS selector
-     * @param string $prefix Specifies the nesting of nodes
+     * @param string $prefix   Specifies the nesting of nodes
      *
      * @return string XPath expression
      *
@@ -132,7 +132,7 @@ class Query
             $xpath .= '/' . $propertyXpath;
         }
 
-        return [$xpath, $selector];
+        return array($xpath, $selector);
     }
 
     /**
@@ -157,7 +157,7 @@ class Query
 
         $result['property'] = $matches[0];
         $result['name'] = $matches['name'];
-        $result['args'] = isset($matches['args']) ? explode(',', $matches['args']) : [];
+        $result['args'] = isset($matches['args']) ? explode(',', $matches['args']) : array();
 
         $result['args'] = array_map('trim', $result['args']);
 
@@ -166,7 +166,7 @@ class Query
 
     /**
      * @param string $name
-     * @param array $parameters
+     * @param array  $parameters
      *
      * @return string
      *
@@ -198,9 +198,9 @@ class Query
     /**
      * Converts a CSS pseudo-class into an XPath expression.
      *
-     * @param string $pseudo Pseudo-class
+     * @param string $pseudo     Pseudo-class
      * @param string $tagName
-     * @param array $parameters
+     * @param array  $parameters
      *
      * @return string
      *
@@ -209,57 +209,57 @@ class Query
     protected static function convertPseudo($pseudo, &$tagName, array $parameters = array())
     {
         switch ($pseudo) {
-            case 'first-child':
-                return 'position() = 1';
+        case 'first-child':
+            return 'position() = 1';
                 break;
-            case 'last-child':
-                return 'position() = last()';
+        case 'last-child':
+            return 'position() = last()';
                 break;
-            case 'nth-child':
-                $xpath = sprintf('(name()="%s") and (%s)', $tagName, self::convertNthExpression($parameters[0]));
-                $tagName = '*';
+        case 'nth-child':
+            $xpath = sprintf('(name()="%s") and (%s)', $tagName, self::convertNthExpression($parameters[0]));
+            $tagName = '*';
 
-                return $xpath;
+            return $xpath;
                 break;
-            case 'contains':
-                $string = trim($parameters[0], '\'"');
+        case 'contains':
+            $string = trim($parameters[0], '\'"');
 
-                if (count($parameters) === 1) {
-                    return self::convertContains($string);
-                }
+            if (count($parameters) === 1) {
+                return self::convertContains($string);
+            }
 
-                if ($parameters[1] !== 'true' && $parameters[1] !== 'false') {
-                    throw new InvalidSelectorException(sprintf('Parameter 2 of "contains" pseudo-class must be equal true or false, "%s" given', $parameters[1]));
-                }
+            if ($parameters[1] !== 'true' && $parameters[1] !== 'false') {
+                throw new InvalidSelectorException(sprintf('Parameter 2 of "contains" pseudo-class must be equal true or false, "%s" given', $parameters[1]));
+            }
 
-                $caseSensitive = $parameters[1] === 'true';
+            $caseSensitive = $parameters[1] === 'true';
 
-                if (count($parameters) === 2) {
-                    return self::convertContains($string, $caseSensitive);
-                }
+            if (count($parameters) === 2) {
+                return self::convertContains($string, $caseSensitive);
+            }
 
-                if ($parameters[2] !== 'true' && $parameters[2] !== 'false') {
-                    throw new InvalidSelectorException(sprintf('Parameter 3 of "contains" pseudo-class must be equal true or false, "%s" given', $parameters[2]));
-                }
+            if ($parameters[2] !== 'true' && $parameters[2] !== 'false') {
+                throw new InvalidSelectorException(sprintf('Parameter 3 of "contains" pseudo-class must be equal true or false, "%s" given', $parameters[2]));
+            }
 
-                $fullMatch = $parameters[2] === 'true';
+            $fullMatch = $parameters[2] === 'true';
 
-                return self::convertContains($string, $caseSensitive, $fullMatch);
+            return self::convertContains($string, $caseSensitive, $fullMatch);
                 break;
-            case 'has':
-                return self::cssToXpath($parameters[0], './/');
+        case 'has':
+            return self::cssToXpath($parameters[0], './/');
                 break;
-            case 'not':
-                return sprintf('not(self::%s)', self::cssToXpath($parameters[0], ''));
+        case 'not':
+            return sprintf('not(self::%s)', self::cssToXpath($parameters[0], ''));
                 break;
-            case 'nth-of-type':
-                return self::convertNthExpression($parameters[0]);
+        case 'nth-of-type':
+            return self::convertNthExpression($parameters[0]);
                 break;
-            case 'empty':
-                return 'count(descendant::*) = 0';
+        case 'empty':
+            return 'count(descendant::*) = 0';
                 break;
-            case 'not-empty':
-                return 'count(descendant::*) > 0';
+        case 'not-empty':
+            return 'count(descendant::*) > 0';
                 break;
         }
 
@@ -267,8 +267,8 @@ class Query
     }
 
     /**
-     * @param array $segments
-     * @param string $prefix Specifies the nesting of nodes
+     * @param array  $segments
+     * @param string $prefix   Specifies the nesting of nodes
      *
      * @return string XPath expression
      *
@@ -309,7 +309,7 @@ class Query
             $attributes[] = self::convertPseudo($segments['pseudo'], $tagName, $parameters);
         }
 
-        if (count($attributes) === 0 && ! isset($segments['tag'])) {
+        if (count($attributes) === 0 && !isset($segments['tag'])) {
             throw new InvalidArgumentException('The array of segments must contain the name of the tag or at least one attribute');
         }
 
@@ -323,15 +323,15 @@ class Query
     }
 
     /**
-     * @param string $name The name of an attribute
+     * @param string $name  The name of an attribute
      * @param string $value The value of an attribute
      *
      * @return string
      */
     protected static function convertAttribute($name, $value)
     {
-        $isSimpleSelector = ! in_array(substr($name, 0, 1), ['^', '!'], true);
-        $isSimpleSelector = $isSimpleSelector && ( ! in_array(substr($name, -1), ['^', '$', '*', '!', '~'], true));
+        $isSimpleSelector = !in_array(substr($name, 0, 1), array('^', '!'), true);
+        $isSimpleSelector = $isSimpleSelector && (!in_array(substr($name, -1), array('^', '$', '*', '!', '~'), true));
 
         if ($isSimpleSelector) {
             // if specified only the attribute name
@@ -360,21 +360,21 @@ class Query
         $name = substr($name, 0, -1);
 
         switch ($symbol) {
-            case '^':
-                $xpath = sprintf('starts-with(@%s, "%s")', $name, $value);
-                break;
-            case '$':
-                $xpath = sprintf('substring(@%s, string-length(@%s) - string-length("%s") + 1) = "%s"', $name, $name, $value, $value);
-                break;
-            case '*':
-                $xpath = sprintf('contains(@%s, "%s")', $name, $value);
-                break;
-            case '!':
-                $xpath = sprintf('not(@%s="%s")', $name, $value);
-                break;
-            case '~':
-                $xpath = sprintf('contains(concat(" ", normalize-space(@%s), " "), " %s ")', $name, $value);
-                break;
+        case '^':
+            $xpath = sprintf('starts-with(@%s, "%s")', $name, $value);
+            break;
+        case '$':
+            $xpath = sprintf('substring(@%s, string-length(@%s) - string-length("%s") + 1) = "%s"', $name, $name, $value, $value);
+            break;
+        case '*':
+            $xpath = sprintf('contains(@%s, "%s")', $name, $value);
+            break;
+        case '!':
+            $xpath = sprintf('not(@%s="%s")', $name, $value);
+            break;
+        case '~':
+            $xpath = sprintf('contains(concat(" ", normalize-space(@%s), " "), " %s ")', $name, $value);
+            break;
         }
 
         return $xpath;
@@ -422,8 +422,8 @@ class Query
 
     /**
      * @param string $string
-     * @param bool $caseSensitive
-     * @param bool $fullMatch
+     * @param bool   $caseSensitive
+     * @param bool   $fullMatch
      *
      * @return string
      */
@@ -433,13 +433,13 @@ class Query
             return sprintf('text() = "%s"', $string);
         }
 
-        if ($caseSensitive && ! $fullMatch) {
+        if ($caseSensitive && !$fullMatch) {
             return sprintf('contains(text(), "%s")', $string);
         }
 
         $strToLowerFunction = function_exists('mb_strtolower') ? 'mb_strtolower' : 'strtolower';
 
-        if ( ! $caseSensitive && $fullMatch) {
+        if (!$caseSensitive && $fullMatch) {
             return sprintf("php:functionString(\"{$strToLowerFunction}\", .) = php:functionString(\"{$strToLowerFunction}\", \"%s\")", $string);
         }
 

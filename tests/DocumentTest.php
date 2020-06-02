@@ -94,7 +94,7 @@ class DocumentTest extends TestCase
         $element = $document->createElement('span');
         $this->assertEquals('', $element->text());
 
-        $element = $document->createElement('input', '', ['name' => 'username']);
+        $element = $document->createElement('input', '', array('name' => 'username'));
         $this->assertEquals('username', $element->getNode()->getAttribute('name'));
     }
 
@@ -106,19 +106,19 @@ class DocumentTest extends TestCase
 
         $this->assertEquals('a', $element->tag);
         $this->assertEquals('', $element->text());
-        $this->assertEquals(['href' => 'http://example.com', 'class' => 'external-link'], $element->attributes());
+        $this->assertEquals(array('href' => 'http://example.com', 'class' => 'external-link'), $element->attributes());
 
         $element = $document->createElementBySelector('#block', 'Foo');
 
         $this->assertEquals('div', $element->tag);
         $this->assertEquals('Foo', $element->text());
-        $this->assertEquals(['id' => 'block'], $element->attributes());
+        $this->assertEquals(array('id' => 'block'), $element->attributes());
 
-        $element = $document->createElementBySelector('input', null, ['name' => 'name', 'placeholder' => 'Enter your name']);
+        $element = $document->createElementBySelector('input', null, array('name' => 'name', 'placeholder' => 'Enter your name'));
 
         $this->assertEquals('input', $element->tag);
         $this->assertEquals('', $element->text());
-        $this->assertEquals(['name' => 'name', 'placeholder' => 'Enter your name'], $element->attributes());
+        $this->assertEquals(array('name' => 'name', 'placeholder' => 'Enter your name'), $element->attributes());
     }
 
     public function testCreateTextNode()
@@ -204,7 +204,7 @@ class DocumentTest extends TestCase
 
         $this->assertCount(0, $document->find('span'));
 
-        $nodes = [];
+        $nodes = array();
         $nodes[] = $document->createElement('span');
         $nodes[] = $document->createElement('span');
 
@@ -422,13 +422,17 @@ class DocumentTest extends TestCase
     {
         $document = new Document($this->loadFixture('posts.html'));
 
-        $post = $document->find('.post')[1];
-        $title = $document->find('.post .title')[1];
+        $post = $document->find('.post');
+        $post = $post[1];
+        $title = $document->find('.post .title');
+        $title = $title[1];
 
-        $titleInContext = $document->find('.title', Query::TYPE_CSS, true, $post)[0];
+        $titleInContext = $document->find('.title', Query::TYPE_CSS, true, $post);
+        $titleInContext = $titleInContext[0];
 
         $this->assertTrue($title->is($titleInContext));
-        $this->assertFalse($title->is($post->find('.title')[0]));
+        $noTitle = $title->is($post->find('.title'));
+        $this->assertFalse($noTitle[0]);
     }
 
     public function testFindText()
@@ -441,7 +445,7 @@ class DocumentTest extends TestCase
         $this->assertTrue(is_array($texts));
         $this->assertEquals(3, count($texts));
 
-        $this->assertEquals(['Link 1', 'Link 2', 'Link 3'], $texts);
+        $this->assertEquals(array('Link 1', 'Link 2', 'Link 3'), $texts);
     }
 
     public function testFindComment()

@@ -2,9 +2,9 @@
 
 namespace DiDom\Tests;
 
-use PHPUnit_Framework_TestCase;
 use DOMDocument;
 use Exception;
+use PHPUnit_Framework_TestCase;
 
 class TestCase extends PHPUnit_Framework_TestCase
 {
@@ -19,7 +19,7 @@ class TestCase extends PHPUnit_Framework_TestCase
         throw new Exception(sprintf('Fixture "%s" does not exist', $filename));
     }
 
-    protected function createDomElement($tagName, $value = null, $attributes = [])
+    protected function createDomElement($tagName, $value = null, $attributes = array())
     {
         $document = new DOMDocument('1.0', 'UTF-8');
         $node = $document->createElement($tagName, $value);

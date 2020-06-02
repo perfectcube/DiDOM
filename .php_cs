@@ -5,9 +5,9 @@ use PhpCsFixer\Finder;
 
 require __DIR__.'/vendor/autoload.php';
 
-$fixers = [
+$fixers = array(
     // PHP arrays should be declared using the short syntax
-    'array_syntax' => ['syntax' => 'short'],
+    'array_syntax' => array('syntax' => 'long'),
 
     // There MUST be one blank line after the namespace declaration
     'blank_line_after_namespace' => true,
@@ -170,7 +170,7 @@ $fixers = [
     'single_line_after_imports' => true,
 
     // Single-line comments and multi-line comments with only one line of actual content should use the // syntax
-    'single_line_comment_style' => true,
+    // 'single_line_comment_style' => true,
 
     // Convert double quotes to single quotes for simple strings
     'single_quote' => true,
@@ -191,13 +191,13 @@ $fixers = [
     // abstract and final MUST be declared before the visibility;
     // static MUST be declared after the visibility
     'visibility_required' => true,
-];
+);
 
 $finder = Finder::create();
 
-$finder->files()->in([
+$finder->files()->in(array(
     'src',
-]);
+));
 
 $config = Config::create()
     ->setRules($fixers)

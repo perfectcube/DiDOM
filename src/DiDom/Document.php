@@ -41,10 +41,10 @@ class Document
     protected $encoding;
 
     /**
-     * @param string|null $string An HTML or XML string or a file path
-     * @param bool $isFile Indicates that the first parameter is a path to a file
-     * @param string $encoding The document encoding
-     * @param string $type The document type
+     * @param string|null $string   An HTML or XML string or a file path
+     * @param bool        $isFile   Indicates that the first parameter is a path to a file
+     * @param string      $encoding The document encoding
+     * @param string      $type     The document type
      *
      * @throws InvalidArgumentException if parameter 3 is not a string
      */
@@ -56,7 +56,7 @@ class Document
             return;
         }
 
-        if ( ! is_string($encoding)) {
+        if (!is_string($encoding)) {
             throw new InvalidArgumentException(sprintf('%s expects parameter 3 to be string, %s given', __METHOD__, gettype($encoding)));
         }
 
@@ -74,10 +74,10 @@ class Document
     /**
      * Creates a new document.
      *
-     * @param string|null $string An HTML or XML string or a file path
-     * @param bool $isFile Indicates that the first parameter is a path to a file
-     * @param string $encoding The document encoding
-     * @param string $type The document type
+     * @param string|null $string   An HTML or XML string or a file path
+     * @param bool        $isFile   Indicates that the first parameter is a path to a file
+     * @param string      $encoding The document encoding
+     * @param string      $type     The document type
      *
      * @return Document
      */
@@ -89,9 +89,9 @@ class Document
     /**
      * Creates a new element node.
      *
-     * @param string $name The tag name of the element
-     * @param string|null $value The value of the element
-     * @param array $attributes The attributes of the element
+     * @param string      $name       The tag name of the element
+     * @param string|null $value      The value of the element
+     * @param array       $attributes The attributes of the element
      *
      * @return Element created element
      */
@@ -105,9 +105,9 @@ class Document
     /**
      * Creates a new element node by CSS selector.
      *
-     * @param string $selector
+     * @param string      $selector
      * @param string|null $value
-     * @param array $attributes
+     * @param array       $attributes
      *
      * @return Element
      *
@@ -185,8 +185,9 @@ class Document
     {
         $returnArray = true;
 
-        if ( ! is_array($nodes)) {
-            $nodes = [$nodes];
+        if (!is_array($nodes)) {
+            $nodes = array($nodes);
+
 
             $returnArray = false;
         }
@@ -198,7 +199,7 @@ class Document
                 $node = $node->getNode();
             }
 
-            if ( ! $node instanceof DOMNode) {
+            if (!$node instanceof DOMNode) {
                 throw new InvalidArgumentException(sprintf('Argument 1 passed to %s must be an instance of %s\Element or DOMNode, %s given', __METHOD__, __NAMESPACE__, (is_object($node) ? get_class($node) : gettype($node))));
             }
 
@@ -212,9 +213,11 @@ class Document
             Errors::restore();
         }
 
-        $result = array_map(function (DOMNode $node) {
-            return new Element($node);
-        }, $result);
+        $result = array_map(
+            function (DOMNode $node) {
+                return new Element($node);
+            }, $result
+        );
 
         return $returnArray ? $result : $result[0];
     }
@@ -228,7 +231,7 @@ class Document
      */
     public function preserveWhiteSpace($value = true)
     {
-        if ( ! is_bool($value)) {
+        if (!is_bool($value)) {
             throw new InvalidArgumentException(sprintf('%s expects parameter 1 to be boolean, %s given', __METHOD__, gettype($value)));
         }
 
@@ -240,9 +243,9 @@ class Document
     /**
      * Load HTML or XML.
      *
-     * @param string $string An HTML or XML string or a file path
-     * @param bool $isFile Indicates that the first parameter is a file path
-     * @param string $type The type of a document
+     * @param string   $string  An HTML or XML string or a file path
+     * @param bool     $isFile  Indicates that the first parameter is a file path
+     * @param string   $type    The type of a document
      * @param int|null $options libxml option constants
      *
      * @return Document
@@ -254,15 +257,15 @@ class Document
      */
     public function load($string, $isFile = false, $type = Document::TYPE_HTML, $options = null)
     {
-        if ( ! is_string($string)) {
+        if (!is_string($string)) {
             throw new InvalidArgumentException(sprintf('%s expects parameter 1 to be string, %s given', __METHOD__, (is_object($string) ? get_class($string) : gettype($string))));
         }
 
-        if ( ! is_string($type)) {
+        if (!is_string($type)) {
             throw new InvalidArgumentException(sprintf('%s expects parameter 3 to be string, %s given', __METHOD__, (is_object($type) ? get_class($type) : gettype($type))));
         }
 
-        if ( ! in_array(strtolower($type), [Document::TYPE_HTML, Document::TYPE_XML], true)) {
+        if (!in_array(strtolower($type), array(Document::TYPE_HTML, Document::TYPE_XML), true)) {
             throw new RuntimeException(sprintf('Document type must be "xml" or "html", %s given', $type));
         }
 
@@ -271,7 +274,7 @@ class Document
             $options = LIBXML_HTML_NODEFDTD;
         }
 
-        if ( ! is_int($options)) {
+        if (!is_int($options)) {
             throw new InvalidArgumentException(sprintf('%s expects parameter 4 to be integer, %s given', __METHOD__, (is_object($options) ? get_class($options) : gettype($options))));
         }
 
@@ -303,7 +306,7 @@ class Document
     /**
      * Load HTML from a string.
      *
-     * @param string $html The HTML string
+     * @param string   $html    The HTML string
      * @param int|null $options Additional parameters
      *
      * @return Document
@@ -318,8 +321,8 @@ class Document
     /**
      * Load HTML from a file.
      *
-     * @param string $filename The path to the HTML file
-     * @param int|null $options Additional parameters
+     * @param string   $filename The path to the HTML file
+     * @param int|null $options  Additional parameters
      *
      * @return Document
      *
@@ -335,7 +338,7 @@ class Document
     /**
      * Load XML from a string.
      *
-     * @param string $xml The XML string
+     * @param string   $xml     The XML string
      * @param int|null $options Additional parameters
      *
      * @return Document
@@ -350,8 +353,8 @@ class Document
     /**
      * Load XML from a file.
      *
-     * @param string $filename The path to the XML file
-     * @param int|null $options Additional parameters
+     * @param string   $filename The path to the XML file
+     * @param int|null $options  Additional parameters
      *
      * @return Document
      *
@@ -376,7 +379,7 @@ class Document
      */
     protected function loadFile($filename)
     {
-        if ( ! is_string($filename)) {
+        if (!is_string($filename)) {
             throw new InvalidArgumentException(sprintf('%s expects parameter 1 to be string, %s given', __METHOD__, gettype($filename)));
         }
 
@@ -397,7 +400,7 @@ class Document
      * Checks the existence of the node.
      *
      * @param string $expression XPath expression or CSS selector
-     * @param string $type The type of the expression
+     * @param string $type       The type of the expression
      *
      * @return bool
      */
@@ -412,9 +415,9 @@ class Document
     /**
      * Searches for an node in the DOM tree for a given XPath expression or a CSS selector.
      *
-     * @param string $expression XPath expression or a CSS selector
-     * @param string $type The type of the expression
-     * @param bool $wrapNode Returns array of Element if true, otherwise array of DOMElement
+     * @param string          $expression  XPath expression or a CSS selector
+     * @param string          $type        The type of the expression
+     * @param bool            $wrapNode    Returns array of Element if true, otherwise array of DOMElement
      * @param DOMElement|null $contextNode The node in which the search will be performed
      *
      * @return Element[]|DOMElement[]
@@ -431,7 +434,7 @@ class Document
                 $contextNode = $contextNode->getNode();
             }
 
-            if ( ! $contextNode instanceof DOMElement) {
+            if (!$contextNode instanceof DOMElement) {
                 throw new InvalidArgumentException(sprintf('Argument 4 passed to %s must be an instance of %s\Element or DOMElement, %s given', __METHOD__, __NAMESPACE__, (is_object($contextNode) ? get_class($contextNode) : gettype($contextNode))));
             }
 
@@ -460,9 +463,9 @@ class Document
     /**
      * Searches for an node in the DOM tree and returns first element or null.
      *
-     * @param string $expression XPath expression or a CSS selector
-     * @param string $type The type of the expression
-     * @param bool $wrapNode Returns array of Element if true, otherwise array of DOMElement
+     * @param string          $expression  XPath expression or a CSS selector
+     * @param string          $type        The type of the expression
+     * @param bool            $wrapNode    Returns array of Element if true, otherwise array of DOMElement
      * @param DOMElement|null $contextNode The node in which the search will be performed
      *
      * @return Element|DOMElement|null
@@ -498,16 +501,16 @@ class Document
     protected function wrapNode($node)
     {
         switch (get_class($node)) {
-            case 'DOMElement':
-            case 'DOMComment':
-            case 'DOMCdataSection':
-                return new Element($node);
+        case 'DOMElement':
+        case 'DOMComment':
+        case 'DOMCdataSection':
+            return new Element($node);
 
-            case 'DOMText':
-                return $node->data;
+        case 'DOMText':
+            return $node->data;
 
-            case 'DOMAttr':
-                return $node->value;
+        case 'DOMAttr':
+            return $node->value;
         }
 
         throw new InvalidArgumentException(sprintf('Unknown node type "%s"', get_class($node)));
@@ -516,8 +519,8 @@ class Document
     /**
      * Searches for a node in the DOM tree for a given XPath expression.
      *
-     * @param string $expression XPath expression
-     * @param bool $wrapNode Returns array of Element if true, otherwise array of DOMElement
+     * @param string     $expression  XPath expression
+     * @param bool       $wrapNode    Returns array of Element if true, otherwise array of DOMElement
      * @param DOMElement $contextNode The node in which the search will be performed
      *
      * @return Element[]|DOMElement[]
@@ -531,7 +534,7 @@ class Document
      * Counts nodes for a given XPath expression or a CSS selector.
      *
      * @param string $expression XPath expression or CSS selector
-     * @param string $type The type of the expression
+     * @param string $type       The type of the expression
      *
      * @return int
      *
@@ -589,7 +592,7 @@ class Document
      */
     public function format($format = true)
     {
-        if ( ! is_bool($format)) {
+        if (!is_bool($format)) {
             throw new InvalidArgumentException(sprintf('%s expects parameter 1 to be boolean, %s given', __METHOD__, gettype($format)));
         }
 
@@ -622,7 +625,7 @@ class Document
         if ($document instanceof Document) {
             $element = $document->getElement();
         } else {
-            if ( ! $document instanceof DOMDocument) {
+            if (!$document instanceof DOMDocument) {
                 throw new InvalidArgumentException(sprintf('Argument 1 passed to %s must be an instance of %s or DOMDocument, %s given', __METHOD__, __CLASS__, (is_object($document) ? get_class($document) : gettype($document))));
             }
 
@@ -697,9 +700,9 @@ class Document
     /**
      * Searches for an node in the DOM tree for a given XPath expression or a CSS selector.
      *
-     * @param string $expression XPath expression or a CSS selector
-     * @param string $type The type of the expression
-     * @param bool $wrapNode Returns array of Element if true, otherwise array of DOMElement
+     * @param string          $expression  XPath expression or a CSS selector
+     * @param string          $type        The type of the expression
+     * @param bool            $wrapNode    Returns array of Element if true, otherwise array of DOMElement
      * @param DOMElement|null $contextNode The node in which the search will be performed
      *
      * @return Element[]|DOMElement[]

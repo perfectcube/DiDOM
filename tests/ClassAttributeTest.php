@@ -2,8 +2,8 @@
 
 namespace DiDom\Tests;
 
-use DiDom\Element;
 use DiDom\ClassAttribute;
+use DiDom\Element;
 use InvalidArgumentException;
 
 class ClassAttributeTest extends TestCase
@@ -36,9 +36,9 @@ class ClassAttributeTest extends TestCase
      */
     public function testAddWithInvalidClassName()
     {
-        $element = new Element('div', null, [
+        $element = new Element('div', null, array(
             'class' => 'foo',
-        ]);
+        ));
 
         $classAttribute = new ClassAttribute($element);
 
@@ -59,9 +59,9 @@ class ClassAttributeTest extends TestCase
         $this->assertEquals('foo', $element->getAttribute('class'));
 
         // with empty class attribute
-        $element = new Element('div', null, [
+        $element = new Element('div', null, array(
             'class' => '',
-        ]);
+        ));
 
         $classAttribute = new ClassAttribute($element);
 
@@ -72,9 +72,9 @@ class ClassAttributeTest extends TestCase
         $this->assertEquals('foo', $element->getAttribute('class'));
 
         // class attribute with spaces
-        $element = new Element('div', null, [
+        $element = new Element('div', null, array(
             'class' => '   ',
-        ]);
+        ));
 
         $classAttribute = new ClassAttribute($element);
 
@@ -85,9 +85,9 @@ class ClassAttributeTest extends TestCase
         $this->assertEquals('foo', $element->getAttribute('class'));
 
         // with not empty class attribute
-        $element = new Element('div', null, [
+        $element = new Element('div', null, array(
             'class' => 'foo bar',
-        ]);
+        ));
 
         $classAttribute = new ClassAttribute($element);
 
@@ -98,9 +98,9 @@ class ClassAttributeTest extends TestCase
         $this->assertEquals('foo bar baz', $element->getAttribute('class'));
 
         // with existing class name
-        $element = new Element('div', null, [
+        $element = new Element('div', null, array(
             'class' => 'foo bar baz',
-        ]);
+        ));
 
         $classAttribute = new ClassAttribute($element);
 
@@ -117,28 +117,28 @@ class ClassAttributeTest extends TestCase
      */
     public function testAddMultipleWithInvalidClassName()
     {
-        $element = new Element('div', null, [
+        $element = new Element('div', null, array(
             'class' => 'foo',
-        ]);
+        ));
 
         $classAttribute = new ClassAttribute($element);
 
-        $classAttribute->addMultiple(['bar', null]);
+        $classAttribute->addMultiple(array('bar', null));
     }
 
     public function testAddMultiple()
     {
-        $element = new Element('div', null, [
+        $element = new Element('div', null, array(
             'class' => 'foo',
-        ]);
+        ));
 
         $classAttribute = new ClassAttribute($element);
 
         $this->assertEquals('foo', $element->getAttribute('class'));
 
-        $classAttribute->addMultiple([
+        $classAttribute->addMultiple(array(
             'bar', 'baz',
-        ]);
+        ));
 
         $this->assertEquals('foo bar baz', $element->getAttribute('class'));
     }
@@ -150,74 +150,74 @@ class ClassAttributeTest extends TestCase
 
         $classAttribute = new ClassAttribute($element);
 
-        $this->assertEquals([], $classAttribute->getAll());
+        $this->assertEquals(array(), $classAttribute->getAll());
 
         // with empty class attribute
-        $element = new Element('div', null, [
+        $element = new Element('div', null, array(
             'class' => '',
-        ]);
+        ));
 
         $classAttribute = new ClassAttribute($element);
 
-        $this->assertEquals([], $classAttribute->getAll());
+        $this->assertEquals(array(), $classAttribute->getAll());
 
         // class attribute with spaces
-        $element = new Element('div', null, [
+        $element = new Element('div', null, array(
             'class' => '   ',
-        ]);
+        ));
 
         $classAttribute = new ClassAttribute($element);
 
-        $this->assertEquals([], $classAttribute->getAll());
+        $this->assertEquals(array(), $classAttribute->getAll());
 
         // one class
-        $element = new Element('div', null, [
+        $element = new Element('div', null, array(
             'class' => 'foo',
-        ]);
+        ));
 
         $classAttribute = new ClassAttribute($element);
 
-        $this->assertEquals(['foo'], $classAttribute->getAll());
+        $this->assertEquals(array('foo'), $classAttribute->getAll());
 
         // several classes
-        $element = new Element('div', null, [
+        $element = new Element('div', null, array(
             'class' => 'foo bar baz',
-        ]);
+        ));
 
         $classAttribute = new ClassAttribute($element);
 
-        $this->assertEquals(['foo', 'bar', 'baz'], $classAttribute->getAll());
+        $this->assertEquals(array('foo', 'bar', 'baz'), $classAttribute->getAll());
 
         // with multiple spaces between class names
-        $element = new Element('div', null, [
+        $element = new Element('div', null, array(
             'class' => 'foo   bar   baz',
-        ]);
+        ));
 
         $classAttribute = new ClassAttribute($element);
 
-        $this->assertEquals(['foo', 'bar', 'baz'], $classAttribute->getAll());
+        $this->assertEquals(array('foo', 'bar', 'baz'), $classAttribute->getAll());
     }
 
     public function testGetAllPropertiesAfterEmptyClassAttribute()
     {
-        $element = new Element('div', null, [
+        $element = new Element('div', null, array(
             'class' => 'foo bar baz',
-        ]);
+        ));
 
         $classAttribute = new ClassAttribute($element);
 
-        $this->assertEquals(['foo', 'bar', 'baz'], $classAttribute->getAll());
+        $this->assertEquals(array('foo', 'bar', 'baz'), $classAttribute->getAll());
 
         $element->setAttribute('class', '');
 
-        $this->assertEquals([], $classAttribute->getAll());
+        $this->assertEquals(array(), $classAttribute->getAll());
     }
 
     public function testContains()
     {
-        $element = new Element('div', null, [
+        $element = new Element('div', null, array(
             'class' => 'foo bar',
-        ]);
+        ));
 
         $classAttribute = new ClassAttribute($element);
 
@@ -232,9 +232,9 @@ class ClassAttributeTest extends TestCase
      */
     public function testRemoveWithInvalidClassName()
     {
-        $element = new Element('div', null, [
+        $element = new Element('div', null, array(
             'class' => 'foo bar baz',
-        ]);
+        ));
 
         $classAttribute = new ClassAttribute($element);
 
@@ -243,9 +243,9 @@ class ClassAttributeTest extends TestCase
 
     public function testRemove()
     {
-        $element = new Element('div', null, [
+        $element = new Element('div', null, array(
             'class' => 'foo bar baz',
-        ]);
+        ));
 
         $classAttribute = new ClassAttribute($element);
 
@@ -256,9 +256,9 @@ class ClassAttributeTest extends TestCase
         $this->assertEquals('foo baz', $element->getAttribute('class'));
 
         // with nonexistent class name
-        $element = new Element('div', null, [
+        $element = new Element('div', null, array(
             'class' => 'foo bar',
-        ]);
+        ));
 
         $classAttribute = new ClassAttribute($element);
 
@@ -275,39 +275,39 @@ class ClassAttributeTest extends TestCase
      */
     public function testRemoveMultipleWithInvalidClassName()
     {
-        $element = new Element('div', null, [
+        $element = new Element('div', null, array(
             'class' => 'foo bar baz',
-        ]);
+        ));
 
         $classAttribute = new ClassAttribute($element);
 
-        $classAttribute->removeMultiple(['foo', null]);
+        $classAttribute->removeMultiple(array('foo', null));
     }
 
     public function testRemoveMultiple()
     {
-        $element = new Element('div', null, [
+        $element = new Element('div', null, array(
             'class' => 'foo bar baz',
-        ]);
+        ));
 
         $classAttribute = new ClassAttribute($element);
 
         $this->assertEquals('foo bar baz', $element->getAttribute('class'));
 
-        $classAttribute->removeMultiple(['foo', 'bar']);
+        $classAttribute->removeMultiple(array('foo', 'bar'));
 
         $this->assertEquals('baz', $element->getAttribute('class'));
 
         // with nonexistent class name
-        $element = new Element('div', null, [
+        $element = new Element('div', null, array(
             'class' => 'foo bar baz',
-        ]);
+        ));
 
         $classAttribute = new ClassAttribute($element);
 
         $this->assertEquals('foo bar baz', $element->getAttribute('class'));
 
-        $classAttribute->removeMultiple(['bar', 'qux']);
+        $classAttribute->removeMultiple(array('bar', 'qux'));
 
         $this->assertEquals('foo baz', $element->getAttribute('class'));
     }
@@ -318,20 +318,20 @@ class ClassAttributeTest extends TestCase
      */
     public function testRemoveAllWithInvalidClassName()
     {
-        $element = new Element('div', null, [
+        $element = new Element('div', null, array(
             'class' => 'foo bar baz',
-        ]);
+        ));
 
         $classAttribute = new ClassAttribute($element);
 
-        $classAttribute->removeAll(['foo', null]);
+        $classAttribute->removeAll(array('foo', null));
     }
 
     public function testRemoveAll()
     {
-        $element = new Element('div', null, [
+        $element = new Element('div', null, array(
             'class' => 'foo bar baz',
-        ]);
+        ));
 
         $classAttribute = new ClassAttribute($element);
 
@@ -344,37 +344,37 @@ class ClassAttributeTest extends TestCase
 
     public function testRemoveAllWithExclusions()
     {
-        $element = new Element('div', null, [
+        $element = new Element('div', null, array(
             'class' => 'foo bar baz',
-        ]);
+        ));
 
         $classAttribute = new ClassAttribute($element);
 
         $this->assertEquals('foo bar baz', $element->getAttribute('class'));
 
-        $classAttribute->removeAll(['bar']);
+        $classAttribute->removeAll(array('bar'));
 
         $this->assertEquals('bar', $element->getAttribute('class'));
 
         // with nonexistent class name
-        $element = new Element('div', null, [
+        $element = new Element('div', null, array(
             'class' => 'foo bar baz',
-        ]);
+        ));
 
         $classAttribute = new ClassAttribute($element);
 
         $this->assertEquals('foo bar baz', $element->getAttribute('class'));
 
-        $classAttribute->removeAll(['bar', 'qux']);
+        $classAttribute->removeAll(array('bar', 'qux'));
 
         $this->assertEquals('bar', $element->getAttribute('class'));
     }
 
     public function testGetElement()
     {
-        $element = new Element('div', null, [
+        $element = new Element('div', null, array(
             'class' => 'foo bar baz',
-        ]);
+        ));
 
         $classAttribute = new ClassAttribute($element);
 

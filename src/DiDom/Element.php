@@ -29,9 +29,9 @@ class Element extends Node
     protected $styleAttribute;
 
     /**
-     * @param DOMElement|DOMText|DOMComment|DOMCdataSection|string $tagName The tag name of an element
-     * @param string|null $value The value of an element
-     * @param array $attributes The attributes of an element
+     * @param DOMElement|DOMText|DOMComment|DOMCdataSection|string $tagName    The tag name of an element
+     * @param string|null                                          $value      The value of an element
+     * @param array                                                $attributes The attributes of an element
      */
     public function __construct($tagName, $value = null, array $attributes = array())
     {
@@ -57,9 +57,9 @@ class Element extends Node
     /**
      * Creates a new element.
      *
-     * @param DOMNode|string $name The tag name of an element
-     * @param string|null $value The value of an element
-     * @param array $attributes The attributes of an element
+     * @param DOMNode|string $name       The tag name of an element
+     * @param string|null    $value      The value of an element
+     * @param array          $attributes The attributes of an element
      *
      * @return Element
      */
@@ -71,9 +71,9 @@ class Element extends Node
     /**
      * Creates a new element node by CSS selector.
      *
-     * @param string $selector
+     * @param string      $selector
      * @param string|null $value
-     * @param array $attributes
+     * @param array       $attributes
      *
      * @return Element
      *
@@ -88,7 +88,7 @@ class Element extends Node
      * Checks that the node matches selector.
      *
      * @param string $selector CSS selector
-     * @param bool $strict
+     * @param bool   $strict
      *
      * @return bool
      *
@@ -98,11 +98,11 @@ class Element extends Node
      */
     public function matches($selector, $strict = false)
     {
-        if ( ! is_string($selector)) {
+        if (!is_string($selector)) {
             throw new InvalidArgumentException(sprintf('%s expects parameter 1 to be string, %s given', __METHOD__, gettype($selector)));
         }
 
-        if ( ! $this->node instanceof DOMElement) {
+        if (!$this->node instanceof DOMElement) {
             return false;
         }
 
@@ -110,7 +110,7 @@ class Element extends Node
             return true;
         }
 
-        if ( ! $strict) {
+        if (!$strict) {
             $innerHtml = $this->html();
             $html = "<root>$innerHtml</root>";
 
@@ -125,7 +125,7 @@ class Element extends Node
 
         $segments = Query::getSegments($selector);
 
-        if ( ! array_key_exists('tag', $segments)) {
+        if (!array_key_exists('tag', $segments)) {
             throw new RuntimeException(sprintf('Tag name must be specified in %s', $selector));
         }
 
@@ -139,9 +139,9 @@ class Element extends Node
             return false;
         }
 
-        $classes = $this->hasAttribute('class') ? explode(' ', trim($this->getAttribute('class'))) : [];
+        $classes = $this->hasAttribute('class') ? explode(' ', trim($this->getAttribute('class'))) : array();
 
-        $segments['classes'] = array_key_exists('classes', $segments) ? $segments['classes'] : [];
+        $segments['classes'] = array_key_exists('classes', $segments) ? $segments['classes'] : array();
 
         $diff1 = array_diff($segments['classes'], $classes);
         $diff2 = array_diff($classes, $segments['classes']);
@@ -154,7 +154,7 @@ class Element extends Node
 
         unset($attributes['id'], $attributes['class']);
 
-        $segments['attributes'] = array_key_exists('attributes', $segments) ? $segments['attributes'] : [];
+        $segments['attributes'] = array_key_exists('attributes', $segments) ? $segments['attributes'] : array();
 
         $diff1 = array_diff_assoc($segments['attributes'], $attributes);
         $diff2 = array_diff_assoc($attributes, $segments['attributes']);
@@ -182,7 +182,7 @@ class Element extends Node
     /**
      * Set an attribute on the element.
      *
-     * @param string $name The name of an attribute
+     * @param string $name  The name of an attribute
      * @param string $value The value of an attribute
      *
      * @return Element
@@ -193,7 +193,7 @@ class Element extends Node
             $value = (string) $value;
         }
 
-        if ( ! is_string($value) && $value !== null) {
+        if (!is_string($value) && $value !== null) {
             throw new InvalidArgumentException(sprintf('%s expects parameter 2 to be string or null, %s given', __METHOD__, (is_object($value) ? get_class($value) : gettype($value))));
         }
 
@@ -205,7 +205,7 @@ class Element extends Node
     /**
      * Access to the element's attributes.
      *
-     * @param string $name The name of an attribute
+     * @param string      $name    The name of an attribute
      * @param string|null $default The value returned if the attribute doesn't exist
      *
      * @return string|null The value of an attribute or null if attribute doesn't exist
@@ -242,7 +242,7 @@ class Element extends Node
      */
     public function removeAllAttributes(array $exclusions = array())
     {
-        if ( ! $this->node instanceof DOMElement) {
+        if (!$this->node instanceof DOMElement) {
             return $this;
         }
 
@@ -260,7 +260,7 @@ class Element extends Node
     /**
      * Alias for getAttribute and setAttribute methods.
      *
-     * @param string $name The name of an attribute
+     * @param string      $name  The name of an attribute
      * @param string|null $value The value that will be returned an attribute doesn't exist
      *
      * @return string|null|Element
@@ -283,7 +283,7 @@ class Element extends Node
      */
     public function attributes(array $names = null)
     {
-        if ( ! $this->node instanceof DOMElement) {
+        if (!$this->node instanceof DOMElement) {
             return null;
         }
 
@@ -319,7 +319,7 @@ class Element extends Node
             return $this->classAttribute;
         }
 
-        if ( ! $this->isElementNode()) {
+        if (!$this->isElementNode()) {
             throw new LogicException('Class attribute is available only for element nodes');
         }
 
@@ -339,7 +339,7 @@ class Element extends Node
             return $this->styleAttribute;
         }
 
-        if ( ! $this->isElementNode()) {
+        if (!$this->isElementNode()) {
             throw new LogicException('Style attribute is available only for element nodes');
         }
 
@@ -351,7 +351,7 @@ class Element extends Node
     /**
      * Dynamically set an attribute on the element.
      *
-     * @param string $name The name of an attribute
+     * @param string $name  The name of an attribute
      * @param string $value The value of an attribute
      *
      * @return Element

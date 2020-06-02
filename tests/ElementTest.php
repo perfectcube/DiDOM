@@ -9,8 +9,8 @@ use DOMComment;
 use DOMDocument;
 use DOMElement;
 use DOMText;
-use LogicException;
 use InvalidArgumentException;
+use LogicException;
 use RuntimeException;
 
 class ElementTest extends TestCase
@@ -28,7 +28,7 @@ class ElementTest extends TestCase
      */
     public function testConstructorWithInvalidTagNameType()
     {
-        new Element([]);
+        new Element(array());
     }
 
     /**
@@ -44,7 +44,7 @@ class ElementTest extends TestCase
      */
     public function testConstructorWithInvalidValue()
     {
-        new Element('span', []);
+        new Element('span', array());
     }
 
     public function testConstructorWithInvalidAttributes()
@@ -60,7 +60,7 @@ class ElementTest extends TestCase
 
     public function testConstructor()
     {
-        $element = new Element('input', null, ['name' => 'username', 'value' => 'John']);
+        $element = new Element('input', null, array('name' => 'username', 'value' => 'John'));
 
         $this->assertEquals('input', $element->getNode()->tagName);
         $this->assertEquals('username', $element->getNode()->getAttribute('name'));
@@ -87,20 +87,20 @@ class ElementTest extends TestCase
 
     public function testCreate()
     {
-        $element = Element::create('span', 'Foo', ['class' => 'bar']);
+        $element = Element::create('span', 'Foo', array('class' => 'bar'));
 
         $this->assertEquals('span', $element->tag);
         $this->assertEquals('Foo', $element->text());
-        $this->assertEquals(['class' => 'bar'], $element->attributes());
+        $this->assertEquals(array('class' => 'bar'), $element->attributes());
     }
 
     public function testCreateBySelector()
     {
-        $element = Element::createBySelector('li.item.active', 'Foo', ['data-id' => 1]);
+        $element = Element::createBySelector('li.item.active', 'Foo', array('data-id' => 1));
 
         $this->assertEquals('li', $element->tag);
         $this->assertEquals('Foo', $element->text());
-        $this->assertEquals(['class' => 'item active', 'data-id' => 1], $element->attributes());
+        $this->assertEquals(array('class' => 'item active', 'data-id' => 1), $element->attributes());
     }
 
     /**
@@ -160,7 +160,7 @@ class ElementTest extends TestCase
         $this->assertInstanceOf('DiDom\Element', $prependedChild);
         $this->assertEquals('foo', $prependedChild->getNode()->textContent);
 
-        $items = [];
+        $items = array();
 
         $items[] = new Element('li', 'bar');
         $items[] = new Element('li', 'baz');
@@ -174,7 +174,7 @@ class ElementTest extends TestCase
             $this->assertInstanceOf('DiDom\Element', $appendedChild);
         }
 
-        foreach (['bar', 'baz', 'foo'] as $index => $value) {
+        foreach (array('bar', 'baz', 'foo') as $index => $value) {
             $this->assertEquals($value, $list->getNode()->childNodes->item($index)->textContent);
         }
     }
@@ -205,7 +205,7 @@ class ElementTest extends TestCase
 
         $document->first('list')->prependChild($documentFragment);
 
-        $expectedContent = ['Qux', 'Quux', 'Quuz', 'Foo', 'Bar', 'Baz'];
+        $expectedContent = array('Qux', 'Quux', 'Quuz', 'Foo', 'Bar', 'Baz');
 
         foreach ($document->find('item') as $index => $childNode) {
             $this->assertEquals('item', $childNode->tag);
@@ -268,7 +268,7 @@ class ElementTest extends TestCase
         $this->assertInstanceOf('DiDom\Element', $appendedChild);
         $this->assertEquals('foo', $appendedChild->getNode()->textContent);
 
-        $items = [];
+        $items = array();
 
         $items[] = new Element('li', 'bar');
         $items[] = new Element('li', 'baz');
@@ -282,7 +282,7 @@ class ElementTest extends TestCase
             $this->assertInstanceOf('DiDom\Element', $appendedChild);
         }
 
-        foreach (['foo', 'bar', 'baz'] as $index => $value) {
+        foreach (array('foo', 'bar', 'baz') as $index => $value) {
             $this->assertEquals($value, $list->getNode()->childNodes->item($index)->textContent);
         }
     }
@@ -313,7 +313,7 @@ class ElementTest extends TestCase
 
         $document->first('list')->appendChild($documentFragment);
 
-        $expectedContent = ['Foo', 'Bar', 'Baz', 'Qux', 'Quux', 'Quuz'];
+        $expectedContent = array('Foo', 'Bar', 'Baz', 'Qux', 'Quux', 'Quuz');
 
         foreach ($document->find('item') as $index => $childNode) {
             $this->assertEquals('item', $childNode->tag);
@@ -363,26 +363,26 @@ class ElementTest extends TestCase
         $this->assertInstanceOf('DiDom\Element', $insertedNode);
         $this->assertEquals('baz', $insertedNode->getNode()->textContent);
 
-        foreach (['baz'] as $index => $value) {
+        foreach (array('baz') as $index => $value) {
             $this->assertEquals($value, $list->getNode()->childNodes->item($index)->textContent);
         }
 
         $list->insertBefore(new Element('li', 'foo'), $list->getNode()->childNodes->item(0));
 
-        foreach (['foo', 'baz'] as $index => $value) {
+        foreach (array('foo', 'baz') as $index => $value) {
             $this->assertEquals($value, $list->getNode()->childNodes->item($index)->textContent);
         }
 
         $list->insertBefore(new Element('li', 'bar'), $list->getNode()->childNodes->item(1));
 
-        foreach (['foo', 'bar', 'baz'] as $index => $value) {
+        foreach (array('foo', 'bar', 'baz') as $index => $value) {
             $this->assertEquals($value, $list->getNode()->childNodes->item($index)->textContent);
         }
 
         // without the reference node
         $list->insertBefore(new Element('li', 'qux'));
 
-        foreach (['foo', 'bar', 'baz', 'qux'] as $index => $value) {
+        foreach (array('foo', 'bar', 'baz', 'qux') as $index => $value) {
             $this->assertEquals($value, $list->getNode()->childNodes->item($index)->textContent);
         }
     }
@@ -429,26 +429,26 @@ class ElementTest extends TestCase
         $this->assertInstanceOf('DiDom\Element', $insertedNode);
         $this->assertEquals('foo', $insertedNode->getNode()->textContent);
 
-        foreach (['foo'] as $index => $value) {
+        foreach (array('foo') as $index => $value) {
             $this->assertEquals($value, $list->getNode()->childNodes->item($index)->textContent);
         }
 
         $list->insertAfter(new Element('li', 'baz'), $list->getNode()->childNodes->item(0));
 
-        foreach (['foo', 'baz'] as $index => $value) {
+        foreach (array('foo', 'baz') as $index => $value) {
             $this->assertEquals($value, $list->getNode()->childNodes->item($index)->textContent);
         }
 
         $list->insertAfter(new Element('li', 'bar'), $list->getNode()->childNodes->item(0));
 
-        foreach (['foo', 'bar', 'baz'] as $index => $value) {
+        foreach (array('foo', 'bar', 'baz') as $index => $value) {
             $this->assertEquals($value, $list->getNode()->childNodes->item($index)->textContent);
         }
 
         // without the reference node
         $list->insertAfter(new Element('li', 'qux'));
 
-        foreach (['foo', 'bar', 'baz', 'qux'] as $index => $value) {
+        foreach (array('foo', 'bar', 'baz', 'qux') as $index => $value) {
             $this->assertEquals($value, $list->getNode()->childNodes->item($index)->textContent);
         }
     }
@@ -486,19 +486,19 @@ class ElementTest extends TestCase
         $this->assertInstanceOf('DiDom\Element', $insertedNode);
         $this->assertEquals('baz', $insertedNode->getNode()->textContent);
 
-        foreach (['baz'] as $index => $value) {
+        foreach (array('baz') as $index => $value) {
             $this->assertEquals($value, $list->getNode()->childNodes->item($index)->textContent);
         }
 
         $insertedNode->insertSiblingBefore(new Element('li', 'foo'));
 
-        foreach (['foo', 'baz'] as $index => $value) {
+        foreach (array('foo', 'baz') as $index => $value) {
             $this->assertEquals($value, $list->getNode()->childNodes->item($index)->textContent);
         }
 
         $insertedNode->insertSiblingBefore(new Element('li', 'bar'));
 
-        foreach (['foo', 'bar', 'baz'] as $index => $value) {
+        foreach (array('foo', 'bar', 'baz') as $index => $value) {
             $this->assertEquals($value, $list->getNode()->childNodes->item($index)->textContent);
         }
     }
@@ -536,19 +536,19 @@ class ElementTest extends TestCase
         $this->assertInstanceOf('DiDom\Element', $insertedNode);
         $this->assertEquals('foo', $insertedNode->getNode()->textContent);
 
-        foreach (['foo'] as $index => $value) {
+        foreach (array('foo') as $index => $value) {
             $this->assertEquals($value, $list->getNode()->childNodes->item($index)->textContent);
         }
 
         $insertedNode->insertSiblingAfter(new Element('li', 'baz'));
 
-        foreach (['foo', 'baz'] as $index => $value) {
+        foreach (array('foo', 'baz') as $index => $value) {
             $this->assertEquals($value, $list->getNode()->childNodes->item($index)->textContent);
         }
 
         $insertedNode->insertSiblingAfter(new Element('li', 'bar'));
 
-        foreach (['foo', 'bar', 'baz'] as $index => $value) {
+        foreach (array('foo', 'bar', 'baz') as $index => $value) {
             $this->assertEquals($value, $list->getNode()->childNodes->item($index)->textContent);
         }
     }
@@ -615,7 +615,8 @@ class ElementTest extends TestCase
 
         $this->assertCount(3, $document->find('li'));
 
-        $list->findInDocument('li')[0]->remove();
+        $found = $list->findInDocument('li');
+        $found[0]->remove();
 
         $this->assertCount(2, $document->find('li'));
     }
@@ -644,7 +645,8 @@ class ElementTest extends TestCase
 
         $this->assertCount(3, $document->find('li'));
 
-        $list->findInDocument('li')[0]->remove();
+        $found = $list->findInDocument('li');
+        $found[0]->remove();
 
         $this->assertCount(2, $document->find('li'));
     }
@@ -748,14 +750,14 @@ class ElementTest extends TestCase
      */
     public function testMatchesStrictWithoutTagName()
     {
-        $element = new Element('ul', null, ['id' => 'foo', 'class' => 'bar baz']);
+        $element = new Element('ul', null, array('id' => 'foo', 'class' => 'bar baz'));
 
         $element->matches('#foo.bar.baz', true);
     }
 
     public function testMatches()
     {
-        $element = new Element('ul', null, ['id' => 'foo', 'class' => 'bar baz']);
+        $element = new Element('ul', null, array('id' => 'foo', 'class' => 'bar baz'));
 
         $this->assertTrue($element->matches('ul'));
         $this->assertTrue($element->matches('#foo'));
@@ -822,7 +824,7 @@ class ElementTest extends TestCase
     public function testSetAttributeWithInvalidValue()
     {
         $element = new Element('input');
-        $element->setAttribute('value', []);
+        $element->setAttribute('value', array());
     }
 
     public function testSetAttribute()
@@ -857,7 +859,7 @@ class ElementTest extends TestCase
 
     public function testRemoveAttribute()
     {
-        $domElement = $this->createDomElement('input', null, ['name' => 'username']);
+        $domElement = $this->createDomElement('input', null, array('name' => 'username'));
 
         $element = new Element($domElement);
 
@@ -872,7 +874,7 @@ class ElementTest extends TestCase
 
     public function testRemoveAllAttributes()
     {
-        $attributes = ['type' => 'text', 'name' => 'username'];
+        $attributes = array('type' => 'text', 'name' => 'username');
 
         $domElement = $this->createDomElement('input', null, $attributes);
 
@@ -886,13 +888,13 @@ class ElementTest extends TestCase
 
     public function testRemoveAllAttributesWithExclusion()
     {
-        $attributes = ['type' => 'text', 'name' => 'username'];
+        $attributes = array('type' => 'text', 'name' => 'username');
 
         $domElement = $this->createDomElement('input', null, $attributes);
 
         $element = new Element($domElement);
 
-        $element->removeAllAttributes(['name']);
+        $element->removeAllAttributes(array('name'));
 
         $this->assertEquals(1, $element->getNode()->attributes->length);
         $this->assertEquals('username', $element->getNode()->getAttribute('name'));
@@ -909,23 +911,22 @@ class ElementTest extends TestCase
 
     public function testAttrGet()
     {
-        $element = new Element('input', null, ['name' => 'username']);
+        $element = new Element('input', null, array('name' => 'username'));
 
         $this->assertEquals('username', $element->attr('name'));
     }
 
     public function testAttributes()
     {
-        $attributes = ['type' => 'text', 'name' => 'username', 'value' => 'John'];
+        $attributes = array('type' => 'text', 'name' => 'username', 'value' => 'John');
 
         $domElement = $this->createDomElement('input', null, $attributes);
 
         $element = new Element($domElement);
 
         $this->assertEquals($attributes, $element->attributes());
-        $this->assertEquals(['name' => 'username', 'value' => 'John'], $element->attributes(['name', 'value']));
+        $this->assertEquals(array('name' => 'username', 'value' => 'John'), $element->attributes(array('name', 'value')));
     }
-
 
     public function testAttributesWithText()
     {
@@ -933,7 +934,6 @@ class ElementTest extends TestCase
 
         $this->assertNull($element->attributes());
     }
-
 
     public function testAttributesWithComment()
     {
@@ -1069,14 +1069,14 @@ Tiếng Việt <br>
         $html = '<li>One</li><li>Two</li><li>Three</li>';
 
         $this->assertEquals($list, $list->setInnerHtml($html));
-        $this->assertEquals(['One', 'Two', 'Three'], $list->find('li::text'));
+        $this->assertEquals(array('One', 'Two', 'Three'), $list->find('li::text'));
 
         // check inner HTML rewrite works
 
         $html = '<li>Foo</li><li>Bar</li><li>Baz</li>';
 
         $this->assertEquals($list, $list->setInnerHtml($html));
-        $this->assertEquals(['Foo', 'Bar', 'Baz'], $list->find('li::text'));
+        $this->assertEquals(array('Foo', 'Bar', 'Baz'), $list->find('li::text'));
 
         $html = '<div id="root"></div>';
         $innerHtml = ' Plain text <span>Lorem ipsum.</span><span>Lorem ipsum.</span>';
@@ -1104,7 +1104,8 @@ Tiếng Việt <br>
         $document = new Document();
         $document->loadHtml($html);
 
-        $element = $document->find('span')[0];
+        $element = $document->find('span');
+        $element = $element[0];
 
         $prolog = '<?xml version="1.0" encoding="UTF-8"?>'."\n";
 
@@ -1291,8 +1292,7 @@ Tiếng Việt <br>
                 '<li><a href="https://google.com">Google</a></li>'.
                 '<li><a href="https://www.w3.org">W3C</a></li>'.
                 '<li><a href="https://wikipedia.org">Wikipedia</a></li>'.
-            '</ul>'
-        ;
+            '</ul>';
 
         $document = new Document($html, false);
 
@@ -1313,7 +1313,8 @@ Tiếng Việt <br>
         $document = new Document($html, false);
 
         $paragraph = $document->first('p');
-        $span = $document->find('span')[1];
+        $span = $document->find('span');
+        $span = $span[1];
 
         $expectedNode = $paragraph->getNode()->childNodes->item(1);
         $this->assertEquals($expectedNode, $span->previousSibling(null, 'DOMElement')->getNode());
@@ -1331,9 +1332,10 @@ Tiếng Việt <br>
 
         $document = new Document($html, false);
 
-        $span = $document->find('span')[1];
+        $span = $document->find('span');
+        $span = $span[1];
 
-        $span->previousSibling(null, []);
+        $span->previousSibling(null, array());
     }
 
     /**
@@ -1345,7 +1347,8 @@ Tiếng Việt <br>
 
         $document = new Document($html, false);
 
-        $span = $document->find('span')[1];
+        $span = $document->find('span');
+        $span = $span[1];
 
         $span->previousSibling(null, 'foo');
     }
@@ -1366,8 +1369,7 @@ Tiếng Việt <br>
                 '<li><a href="https://google.com">Google</a></li>'.
                 '<li><a href="https://www.w3.org">W3C</a></li>'.
                 '<li><a href="https://wikipedia.org">Wikipedia</a></li>'.
-            '</ul>'
-        ;
+            '</ul>';
 
         $document = new Document($html, false);
 
@@ -1381,7 +1383,7 @@ Tiếng Việt <br>
 
     public function previousSiblingWithSelectorAndNotDomElementNodeTypeDataProvider()
     {
-        return [['DOMText'], ['DOMComment']];
+        return array(array('DOMText'), array('DOMComment'));
     }
 
     // =========================
@@ -1395,15 +1397,16 @@ Tiếng Việt <br>
         $document = new Document($html, false);
 
         $paragraph = $document->first('p');
-        $span = $paragraph->find('span')[1];
+        $span = $paragraph->find('span');
+        $span = $span[1];
 
         $childNodes = $paragraph->getNode()->childNodes;
 
-        $expectedResult = [
+        $expectedResult = array(
             $childNodes->item(0),
             $childNodes->item(1),
             $childNodes->item(2),
-        ];
+        );
 
         $previousSiblings = $span->previousSiblings();
 
@@ -1423,8 +1426,7 @@ Tiếng Việt <br>
                 '<li><a href="https://google.com">Google</a></li>'.
                 '<li><a href="https://www.w3.org">W3C</a></li>'.
                 '<li><a href="https://wikipedia.org">Wikipedia</a></li>'.
-            '</ul>'
-        ;
+            '</ul>';
 
         $document = new Document($html, false);
 
@@ -1435,11 +1437,11 @@ Tiếng Việt <br>
 
         $childNodes = $list->getNode()->childNodes;
 
-        $expectedResult = [
+        $expectedResult = array(
             $childNodes->item(0),
             $childNodes->item(1),
             $childNodes->item(2),
-        ];
+        );
 
         $previousSiblings = $item->previousSiblings('li:has(a[href$=".com"])');
 
@@ -1457,13 +1459,14 @@ Tiếng Việt <br>
         $document = new Document($html, false);
 
         $paragraph = $document->first('p');
-        $span = $document->find('span')[1];
+        $span = $document->find('span');
+        $span = $span[1];
 
         $childNodes = $paragraph->getNode()->childNodes;
 
-        $expectedResult = [
+        $expectedResult = array(
             $childNodes->item(1),
-        ];
+        );
 
         $previousSiblings = $span->previousSiblings(null, 'DOMElement');
 
@@ -1473,9 +1476,9 @@ Tiếng Việt <br>
             $this->assertEquals($expectedResult[$index], $previousSibling->getNode());
         }
 
-        $expectedResult = [
+        $expectedResult = array(
             $childNodes->item(2),
-        ];
+        );
 
         $previousSiblings = $span->previousSiblings(null, 'DOMComment');
 
@@ -1495,9 +1498,10 @@ Tiếng Việt <br>
 
         $document = new Document($html, false);
 
-        $span = $document->find('span')[1];
+        $span = $document->find('span');
+        $span = $span[1];
 
-        $span->previousSiblings(null, []);
+        $span->previousSiblings(null, array());
     }
 
     /**
@@ -1509,7 +1513,8 @@ Tiếng Việt <br>
 
         $document = new Document($html, false);
 
-        $span = $document->find('span')[1];
+        $span = $document->find('span');
+        $span = $span[1];
 
         $span->previousSibling(null, 'foo');
     }
@@ -1530,8 +1535,7 @@ Tiếng Việt <br>
             '<li><a href="https://google.com">Google</a></li>'.
             '<li><a href="https://www.w3.org">W3C</a></li>'.
             '<li><a href="https://wikipedia.org">Wikipedia</a></li>'.
-            '</ul>'
-        ;
+            '</ul>';
 
         $document = new Document($html, false);
 
@@ -1545,7 +1549,7 @@ Tiếng Việt <br>
 
     public function previousSiblingsWithSelectorAndNotDomElementNodeTypeDataProvider()
     {
-        return [['DOMText'], ['DOMComment']];
+        return array(array('DOMText'), array('DOMComment'));
     }
 
     // =========================
@@ -1610,8 +1614,7 @@ Tiếng Việt <br>
                 '<li><a href="https://google.com">Google</a></li>'.
                 '<li><a href="https://www.w3.org">W3C</a></li>'.
                 '<li><a href="https://wikipedia.org">Wikipedia</a></li>'.
-            '</ul>'
-        ;
+            '</ul>';
 
         $document = new Document($html, false);
 
@@ -1632,7 +1635,8 @@ Tiếng Việt <br>
         $document = new Document($html, false);
 
         $paragraph = $document->first('p');
-        $span = $document->find('span')[0];
+        $span = $document->find('span');
+        $span = $span[0];
 
         $expectedNode = $paragraph->getNode()->childNodes->item(4);
         $this->assertEquals($expectedNode, $span->nextSibling(null, 'DOMElement')->getNode());
@@ -1650,9 +1654,10 @@ Tiếng Việt <br>
 
         $document = new Document($html, false);
 
-        $span = $document->find('span')[0];
+        $span = $document->find('span');
+        $span = $span[0];
 
-        $span->nextSibling(null, []);
+        $span->nextSibling(null, array());
     }
 
     /**
@@ -1664,7 +1669,8 @@ Tiếng Việt <br>
 
         $document = new Document($html, false);
 
-        $span = $document->find('span')[0];
+        $span = $document->find('span');
+        $span = $span[0];
 
         $span->nextSibling(null, 'foo');
     }
@@ -1685,8 +1691,7 @@ Tiếng Việt <br>
                 '<li><a href="https://google.com">Google</a></li>'.
                 '<li><a href="https://www.w3.org">W3C</a></li>'.
                 '<li><a href="https://wikipedia.org">Wikipedia</a></li>'.
-            '</ul>'
-        ;
+            '</ul>';
 
         $document = new Document($html, false);
 
@@ -1700,7 +1705,7 @@ Tiếng Việt <br>
 
     public function nextSiblingWithSelectorAndNotDomElementNodeTypeDataProvider()
     {
-        return [['DOMText'], ['DOMComment']];
+        return array(array('DOMText'), array('DOMComment'));
     }
 
     // =========================
@@ -1714,14 +1719,15 @@ Tiếng Việt <br>
         $document = new Document($html, false);
 
         $paragraph = $document->first('p');
-        $span = $paragraph->find('span')[0];
+        $span = $paragraph->find('span');
+        $span = $span[0];
 
         $childNodes = $paragraph->getNode()->childNodes;
 
-        $expectedResult = [
+        $expectedResult = array(
             $childNodes->item(2),
             $childNodes->item(3),
-        ];
+        );
 
         $nextSiblings = $span->nextSiblings();
 
@@ -1741,8 +1747,7 @@ Tiếng Việt <br>
                 '<li><a href="https://google.com">Google</a></li>'.
                 '<li><a href="https://www.w3.org">W3C</a></li>'.
                 '<li><a href="https://wikipedia.org">Wikipedia</a></li>'.
-            '</ul>'
-        ;
+            '</ul>';
 
         $document = new Document($html, false);
 
@@ -1753,10 +1758,10 @@ Tiếng Việt <br>
 
         $childNodes = $list->getNode()->childNodes;
 
-        $expectedResult = [
+        $expectedResult = array(
             $childNodes->item(1),
             $childNodes->item(2),
-        ];
+        );
 
         $nextSiblings = $item->nextSiblings('li:has(a[href$=".com"])');
 
@@ -1774,13 +1779,14 @@ Tiếng Việt <br>
         $document = new Document($html, false);
 
         $paragraph = $document->first('p');
-        $span = $document->find('span')[0];
+        $span = $document->find('span');
+        $span = $span[0];
 
         $childNodes = $paragraph->getNode()->childNodes;
 
-        $expectedResult = [
+        $expectedResult = array(
             $childNodes->item(4),
-        ];
+        );
 
         $previousSiblings = $span->nextSiblings(null, 'DOMElement');
 
@@ -1790,9 +1796,9 @@ Tiếng Việt <br>
             $this->assertEquals($expectedResult[$index], $previousSibling->getNode());
         }
 
-        $expectedResult = [
+        $expectedResult = array(
             $childNodes->item(2),
-        ];
+        );
 
         $previousSiblings = $span->nextSiblings(null, 'DOMComment');
 
@@ -1812,9 +1818,10 @@ Tiếng Việt <br>
 
         $document = new Document($html, false);
 
-        $span = $document->find('span')[0];
+        $span = $document->find('span');
+        $span = $span[0];
 
-        $span->nextSiblings(null, []);
+        $span->nextSiblings(null, array());
     }
 
     /**
@@ -1826,7 +1833,8 @@ Tiếng Việt <br>
 
         $document = new Document($html, false);
 
-        $span = $document->find('span')[0];
+        $span = $document->find('span');
+        $span = $span[0];
 
         $span->nextSiblings(null, 'foo');
     }
@@ -1847,8 +1855,7 @@ Tiếng Việt <br>
                 '<li><a href="https://google.com">Google</a></li>'.
                 '<li><a href="https://www.w3.org">W3C</a></li>'.
                 '<li><a href="https://wikipedia.org">Wikipedia</a></li>'.
-            '</ul>'
-        ;
+            '</ul>';
 
         $document = new Document($html, false);
 
@@ -1862,7 +1869,7 @@ Tiếng Việt <br>
 
     public function nextSiblingsWithSelectorAndNotDomElementNodeTypeDataProvider()
     {
-        return [['DOMText'], ['DOMComment']];
+        return array(array('DOMText'), array('DOMComment'));
     }
 
     public function testChild()
@@ -2048,21 +2055,29 @@ Tiếng Việt <br>
 
         $document = new Document($html, false);
 
-        $first = $document->find('li')[0];
-        $third = $document->find('li')[2];
+        $first = $document->find('li');
+        $first = $first[0];
+        $third = $document->find('li');
+        $third = $third[2];
 
         $this->assertEquals($first->getNode(), $first->replace($third)->getNode());
-        $this->assertEquals($third->getNode(), $document->find('li')[0]->getNode());
+        $found = $document->find('li');
+        $node = $found[0]->getNode();
+        $this->assertEquals($third->getNode(), $node);
         $this->assertCount(3, $document->find('li'));
 
         // replace without cloning
         $document = new Document($html, false);
 
-        $first = $document->find('li')[0];
-        $third = $document->find('li')[2];
+        $first = $document->find('li');
+        $first = $first[0];
+        $third = $document->find('li');
+        $third = $third[2];
 
         $this->assertEquals($first->getNode(), $first->replace($third, false)->getNode());
-        $this->assertEquals($third->getNode(), $document->find('li')[0]->getNode());
+        $found = $document->find('li');
+        $node = $found[0]->getNode();
+        $this->assertEquals($third->getNode(), $node);
         $this->assertCount(2, $document->find('li'));
     }
 
@@ -2072,12 +2087,15 @@ Tiếng Việt <br>
 
         $document = new Document($html, false);
 
-        $first = $document->find('li')[0];
+        $first = $document->find('li');
+        $first = $first[0];
 
         $newElement = new Element('li', 'Foo');
 
         $this->assertEquals($first->getNode(), $first->replace($newElement)->getNode());
-        $this->assertEquals('Foo', $document->find('li')[0]->text());
+        $found = $document->find('li');
+        $text = $found[0]->text();
+        $this->assertEquals('Foo', $text);
         $this->assertCount(3, $document->find('li'));
 
         // replace with new node
@@ -2099,8 +2117,10 @@ Tiếng Việt <br>
         $document = new Document($html, false);
         $document2 = new Document($html, false);
 
-        $first = $document->find('li')[0];
-        $third = $document2->find('li')[2];
+        $first = $document->find('li');
+        $first = $first[0];
+        $third = $document2->find('li');
+        $third = $third[2];
 
         $first->replace($third);
     }
@@ -2131,7 +2151,7 @@ Tiếng Việt <br>
 
         $document->first('item:nth-child(2)')->replace($documentFragment);
 
-        $expectedContent = ['Foo', 'Qux', 'Quux', 'Quuz', 'Baz'];
+        $expectedContent = array('Foo', 'Qux', 'Quux', 'Quuz', 'Baz');
 
         foreach ($document->find('item') as $index => $childNode) {
             $this->assertEquals('item', $childNode->tag);
@@ -2148,7 +2168,8 @@ Tiếng Việt <br>
 
         $document = new Document($html, false);
 
-        $document->find('li')[0]->replace(null);
+        $found = $document->find('li');
+        $found = $found[0]->replace(null);
     }
 
     /**
@@ -2175,7 +2196,9 @@ Tiếng Việt <br>
 
         $document = new Document($html, false);
 
-        $this->assertEquals(4, $document->find('li')[2]->getLineNo());
+        $found = $document->find('li');
+        $line = $found[2]->getLineNo();
+        $this->assertEquals(4, $line);
     }
 
     public function testCloneNode()
@@ -2231,7 +2254,7 @@ Tiếng Việt <br>
 
     public function testGetMagicMethod()
     {
-        $element = new Element('input', null, ['name' => 'username']);
+        $element = new Element('input', null, array('name' => 'username'));
 
         $this->assertEquals('username', $element->name);
     }
@@ -2251,7 +2274,7 @@ Tiếng Việt <br>
 
     public function testUnsetMagicMethod()
     {
-        $element = new Element('input', null, ['name' => 'username']);
+        $element = new Element('input', null, array('name' => 'username'));
 
         $this->assertTrue($element->hasAttribute('name'));
 

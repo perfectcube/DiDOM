@@ -15,7 +15,7 @@ class DocumentFragment extends Node
      */
     public function __construct($documentFragment)
     {
-        if ( ! $documentFragment instanceof DOMDocumentFragment) {
+        if (!$documentFragment instanceof DOMDocumentFragment) {
             throw new InvalidArgumentException(sprintf('Argument 1 passed to %s must be an instance of DOMDocumentFragment, %s given', __METHOD__, (is_object($documentFragment) ? get_class($documentFragment) : gettype($documentFragment))));
         }
 

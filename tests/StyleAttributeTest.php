@@ -36,9 +36,9 @@ class StyleAttributeTest extends TestCase
      */
     public function testSetPropertyWithInvalidPropertyName()
     {
-        $element = new Element('div', null, [
+        $element = new Element('div', null, array(
             'style' => 'color: blue; border: 1px solid black',
-        ]);
+        ));
 
         $styleAttribute = new StyleAttribute($element);
 
@@ -51,9 +51,9 @@ class StyleAttributeTest extends TestCase
      */
     public function testSetPropertyWithInvalidPropertyValue()
     {
-        $element = new Element('div', null, [
+        $element = new Element('div', null, array(
             'style' => 'color: blue; border: 1px solid black',
-        ]);
+        ));
 
         $styleAttribute = new StyleAttribute($element);
 
@@ -62,9 +62,9 @@ class StyleAttributeTest extends TestCase
 
     public function testSetProperty()
     {
-        $element = new Element('div', null, [
+        $element = new Element('div', null, array(
             'style' => 'color: blue; border: 1px solid black',
-        ]);
+        ));
 
         $styleAttribute = new StyleAttribute($element);
 
@@ -81,16 +81,16 @@ class StyleAttributeTest extends TestCase
      */
     public function testSetMultiplePropertiesWithInvalidPropertyName()
     {
-        $element = new Element('div', null, [
+        $element = new Element('div', null, array(
             'style' => 'color: blue; border: 1px solid black',
-        ]);
+        ));
 
         $styleAttribute = new StyleAttribute($element);
 
-        $styleAttribute->setMultipleProperties([
+        $styleAttribute->setMultipleProperties(array(
             'width' => '50px',
             'height',
-        ]);
+        ));
     }
 
     /**
@@ -99,32 +99,32 @@ class StyleAttributeTest extends TestCase
      */
     public function testSetMultiplePropertiesWithInvalidPropertyValue()
     {
-        $element = new Element('div', null, [
+        $element = new Element('div', null, array(
             'style' => 'color: blue; border: 1px solid black',
-        ]);
+        ));
 
         $styleAttribute = new StyleAttribute($element);
 
-        $styleAttribute->setMultipleProperties([
+        $styleAttribute->setMultipleProperties(array(
             'width' => '50px',
             'height' => null,
-        ]);
+        ));
     }
 
     public function testSetMultipleProperties()
     {
-        $element = new Element('div', null, [
+        $element = new Element('div', null, array(
             'style' => 'color: blue; border: 1px solid black',
-        ]);
+        ));
 
         $styleAttribute = new StyleAttribute($element);
 
         $this->assertEquals('color: blue; border: 1px solid black', $element->getAttribute('style'));
 
-        $styleAttribute->setMultipleProperties([
+        $styleAttribute->setMultipleProperties(array(
             'font-size' => '16px',
             'font-family' => 'Times',
-        ]);
+        ));
 
         $this->assertEquals('color: blue; border: 1px solid black; font-size: 16px; font-family: Times', $element->getAttribute('style'));
     }
@@ -135,9 +135,9 @@ class StyleAttributeTest extends TestCase
      */
     public function testGetPropertyWithInvalidPropertyName()
     {
-        $element = new Element('div', null, [
+        $element = new Element('div', null, array(
             'style' => 'color: blue; border: 1px solid black',
-        ]);
+        ));
 
         $styleAttribute = new StyleAttribute($element);
 
@@ -153,9 +153,9 @@ class StyleAttributeTest extends TestCase
      */
     public function testGetProperty($styleString, $propertyName, $expectedResult)
     {
-        $element = new Element('div', null, [
+        $element = new Element('div', null, array(
             'style' => $styleString,
-        ]);
+        ));
 
         $styleAttribute = new StyleAttribute($element);
 
@@ -164,30 +164,30 @@ class StyleAttributeTest extends TestCase
 
     public function getPropertyDataProvider()
     {
-        return [
-            [
+        return array(
+            array(
                 'color: blue; font-size: 16px; border: 1px solid black',
                 'font-size',
                 '16px',
-            ],
-            [
+            ),
+            array(
                 'color: blue; font-size: 16px; border: 1px solid black;',
                 'font-size',
                 '16px',
-            ],
-            [
+            ),
+            array(
                 'color: blue; font-size: 16px; border: 1px solid black;',
                 'foo',
                 null,
-            ],
-        ];
+            ),
+        );
     }
 
     public function testGetPropertyWithDefaultValue()
     {
-        $element = new Element('div', null, [
+        $element = new Element('div', null, array(
             'style' => 'color: blue',
-        ]);
+        ));
 
         $styleAttribute = new StyleAttribute($element);
 
@@ -201,13 +201,13 @@ class StyleAttributeTest extends TestCase
      */
     public function testGetMultiplePropertiesWithInvalidPropertyName()
     {
-        $element = new Element('div', null, [
+        $element = new Element('div', null, array(
             'style' => 'color: blue; border: 1px solid black',
-        ]);
+        ));
 
         $styleAttribute = new StyleAttribute($element);
 
-        $styleAttribute->getMultipleProperties(['color', null]);
+        $styleAttribute->getMultipleProperties(array('color', null));
     }
 
     /**
@@ -219,9 +219,9 @@ class StyleAttributeTest extends TestCase
      */
     public function testGetMultipleProperties($styleString, $propertyNames, $expectedResult)
     {
-        $element = new Element('div', null, [
+        $element = new Element('div', null, array(
             'style' => $styleString,
-        ]);
+        ));
 
         $styleAttribute = new StyleAttribute($element);
 
@@ -230,31 +230,31 @@ class StyleAttributeTest extends TestCase
 
     public function getMultiplePropertiesDataProvider()
     {
-        return [
-            [
+        return array(
+            array(
                 'color: blue; font-size: 16px; font-family: Times; border: 1px solid black',
-                ['font-size'],
-                [
+                array('font-size'),
+                array(
                     'font-size' => '16px',
-                ],
-            ],
-            [
+                ),
+            ),
+            array(
                 'color: blue; font-size: 16px; font-family: Times; border: 1px solid black',
-                ['font-size', 'border'],
-                [
-                    'font-size' => '16px',
-                    'border' => '1px solid black',
-                ],
-            ],
-            [
-                'color: blue; font-size: 16px; font-family: Times; border: 1px solid black',
-                ['font-size', 'border', 'width'],
-                [
+                array('font-size', 'border'),
+                array(
                     'font-size' => '16px',
                     'border' => '1px solid black',
-                ],
-            ],
-        ];
+                ),
+            ),
+            array(
+                'color: blue; font-size: 16px; font-family: Times; border: 1px solid black',
+                array('font-size', 'border', 'width'),
+                array(
+                    'font-size' => '16px',
+                    'border' => '1px solid black',
+                ),
+            ),
+        );
     }
 
     /**
@@ -265,9 +265,9 @@ class StyleAttributeTest extends TestCase
      */
     public function testGetAllProperties($styleString, $expectedResult)
     {
-        $element = new Element('div', null, [
+        $element = new Element('div', null, array(
             'style' => $styleString,
-        ]);
+        ));
 
         $styleAttribute = new StyleAttribute($element);
 
@@ -276,43 +276,43 @@ class StyleAttributeTest extends TestCase
 
     public function getAllPropertiesDataProvider()
     {
-        return [
-            [
+        return array(
+            array(
                 '',
-                [],
-            ],
-            [
+                array(),
+            ),
+            array(
                 'color: blue; font-size: 16px; border: 1px solid black',
-                [
+                array(
                     'color' => 'blue',
                     'font-size' => '16px',
                     'border' => '1px solid black',
-                ],
-            ],
-            [
+                ),
+            ),
+            array(
                 'color: blue; font-size: 16px; border: 1px solid black',
-                [
+                array(
                     'color' => 'blue',
                     'font-size' => '16px',
                     'border' => '1px solid black',
-                ],
-            ],
-        ];
+                ),
+            ),
+        );
     }
 
     public function testGetAllPropertiesAfterEmptyStyleAttribute()
     {
-        $element = new Element('div', null, [
+        $element = new Element('div', null, array(
             'style' => 'color: blue',
-        ]);
+        ));
 
         $styleAttribute = new StyleAttribute($element);
 
-        $this->assertEquals(['color' => 'blue'], $styleAttribute->getAllProperties());
+        $this->assertEquals(array('color' => 'blue'), $styleAttribute->getAllProperties());
 
         $element->setAttribute('style', '');
 
-        $this->assertEquals([], $styleAttribute->getAllProperties());
+        $this->assertEquals(array(), $styleAttribute->getAllProperties());
     }
 
     /**
@@ -321,9 +321,9 @@ class StyleAttributeTest extends TestCase
      */
     public function testHasPropertyWithInvalidPropertyName()
     {
-        $element = new Element('div', null, [
+        $element = new Element('div', null, array(
             'style' => 'color: blue; border: 1px solid black',
-        ]);
+        ));
 
         $styleAttribute = new StyleAttribute($element);
 
@@ -332,9 +332,9 @@ class StyleAttributeTest extends TestCase
 
     public function testHasProperty()
     {
-        $element = new Element('div', null, [
+        $element = new Element('div', null, array(
             'style' => 'color: blue; border: 1px solid black',
-        ]);
+        ));
 
         $styleAttribute = new StyleAttribute($element);
 
@@ -348,9 +348,9 @@ class StyleAttributeTest extends TestCase
      */
     public function testRemovePropertyWithInvalidPropertyName()
     {
-        $element = new Element('div', null, [
+        $element = new Element('div', null, array(
             'style' => 'color: blue; border: 1px solid black',
-        ]);
+        ));
 
         $styleAttribute = new StyleAttribute($element);
 
@@ -361,9 +361,9 @@ class StyleAttributeTest extends TestCase
     {
         $styleString = 'color: blue; font-size: 16px; border: 1px solid black';
 
-        $element = new Element('span', 'foo', [
+        $element = new Element('span', 'foo', array(
             'style' => $styleString,
-        ]);
+        ));
 
         $styleAttribute = new StyleAttribute($element);
 
@@ -380,13 +380,13 @@ class StyleAttributeTest extends TestCase
      */
     public function testRemoveMultiplePropertiesWithInvalidPropertyName()
     {
-        $element = new Element('div', null, [
+        $element = new Element('div', null, array(
             'style' => 'color: blue; border: 1px solid black',
-        ]);
+        ));
 
         $styleAttribute = new StyleAttribute($element);
 
-        $styleAttribute->removeMultipleProperties(['color', null]);
+        $styleAttribute->removeMultipleProperties(array('color', null));
     }
 
     /**
@@ -398,9 +398,9 @@ class StyleAttributeTest extends TestCase
      */
     public function testRemoveMultipleProperties($styleString, $propertyNames, $expectedResult)
     {
-        $element = new Element('div', null, [
+        $element = new Element('div', null, array(
             'style' => $styleString,
-        ]);
+        ));
 
         $styleAttribute = new StyleAttribute($element);
 
@@ -413,29 +413,29 @@ class StyleAttributeTest extends TestCase
 
     public function removeMultiplePropertiesDataProvider()
     {
-        return [
-            [
+        return array(
+            array(
                 'color: blue; font-size: 16px; font-family: Times; border: 1px solid black',
-                [
+                array(
                     'font-size',
-                ],
+                ),
                 'color: blue; font-family: Times; border: 1px solid black',
-            ],
-            [
+            ),
+            array(
                 'color: blue; font-size: 16px; font-family: Times; border: 1px solid black',
-                [
+                array(
                     'font-size', 'border',
-                ],
+                ),
                 'color: blue; font-family: Times',
-            ],
-            [
+            ),
+            array(
                 'color: blue; font-size: 16px; font-family: Times; border: 1px solid black',
-                [
+                array(
                     'font-size', 'border', 'width',
-                ],
+                ),
                 'color: blue; font-family: Times',
-            ],
-        ];
+            ),
+        );
     }
 
     /**
@@ -444,13 +444,13 @@ class StyleAttributeTest extends TestCase
      */
     public function testRemoveAllPropertiesWithInvalidPropertyName()
     {
-        $element = new Element('div', null, [
+        $element = new Element('div', null, array(
             'style' => 'color: blue; border: 1px solid black',
-        ]);
+        ));
 
         $styleAttribute = new StyleAttribute($element);
 
-        $styleAttribute->removeAllProperties(['color', null]);
+        $styleAttribute->removeAllProperties(array('color', null));
     }
 
     /**
@@ -462,9 +462,9 @@ class StyleAttributeTest extends TestCase
      */
     public function testRemoveAllProperties($styleString, $exclusions, $expectedResult)
     {
-        $element = new Element('div', null, [
+        $element = new Element('div', null, array(
             'style' => $styleString,
-        ]);
+        ));
 
         $styleAttribute = new StyleAttribute($element);
 
@@ -477,36 +477,36 @@ class StyleAttributeTest extends TestCase
 
     public function removeAllPropertiesDataProvider()
     {
-        return [
-            [
+        return array(
+            array(
                 'color: blue; font-size: 16px; font-family: Times; border: 1px solid black',
-                [
+                array(
                     'font-size',
-                ],
+                ),
                 'font-size: 16px',
-            ],
-            [
+            ),
+            array(
                 'color: blue; font-size: 16px; font-family: Times; border: 1px solid black',
-                [
+                array(
                     'font-size', 'border',
-                ],
+                ),
                 'font-size: 16px; border: 1px solid black',
-            ],
-            [
+            ),
+            array(
                 'color: blue; font-size: 16px; font-family: Times; border: 1px solid black',
-                [
+                array(
                     'font-size', 'border', 'width',
-                ],
+                ),
                 'font-size: 16px; border: 1px solid black',
-            ],
-        ];
+            ),
+        );
     }
 
     public function testGetElement()
     {
-        $element = new Element('div', null, [
+        $element = new Element('div', null, array(
             'style' => 'color: blue; font-size: 16px',
-        ]);
+        ));
 
         $styleAttribute = new StyleAttribute($element);
 
