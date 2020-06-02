@@ -1,5 +1,5 @@
 {
-    "name": "imangazaliev/didom",
+    "name": "perfectcube/didom",
     "description": "Simple and fast HTML parser",
     "type": "library",
     "keywords": ["didom", "parser", "html", "xml"],
