@@ -52,7 +52,7 @@ abstract class Node
 
         $nodes = array_reverse($nodes);
 
-        $result = [];
+        $result = array();
 
         $referenceNode = $this->node->firstChild;
 
@@ -89,7 +89,7 @@ abstract class Node
             $returnArray = false;
         }
 
-        $result = [];
+        $result = array();
 
         Errors::disable();
 
@@ -419,7 +419,7 @@ abstract class Node
      */
     public function innerHtml($delimiter = '')
     {
-        $innerHtml = [];
+        $innerHtml = array();
 
         foreach ($this->node->childNodes as $childNode) {
             $innerHtml[] = $childNode->ownerDocument->saveHTML($childNode);
@@ -437,7 +437,7 @@ abstract class Node
      */
     public function innerXml($delimiter = '')
     {
-        $innerXml = [];
+        $innerXml = array();
 
         foreach ($this->node->childNodes as $childNode) {
             $innerXml[] = $childNode->ownerDocument->saveXML($childNode);
@@ -741,7 +741,7 @@ abstract class Node
             throw new LogicException(sprintf('Selector can be used only with DOMElement node type, %s given', $nodeType));
         }
 
-        $result = [];
+        $result = array();
 
         $node = $this->node->previousSibling;
 
@@ -881,7 +881,7 @@ abstract class Node
             throw new LogicException(sprintf('Selector can be used only with DOMElement node type, %s given', $nodeType));
         }
 
-        $result = [];
+        $result = array();
 
         $node = $this->node->nextSibling;
 
@@ -969,7 +969,7 @@ abstract class Node
      */
     public function children()
     {
-        $children = [];
+        $children = array();
 
         foreach ($this->node->childNodes as $node) {
             $children[] = new Element($node);
@@ -1009,13 +1009,13 @@ abstract class Node
     {
         // we need to collect child nodes to array
         // because removing nodes from the DOMNodeList on iterating is not working
-        $childNodes = [];
+        $childNodes = array();
 
         foreach ($this->node->childNodes as $childNode) {
             $childNodes[] = $childNode;
         }
 
-        $removedNodes = [];
+        $removedNodes = array();
 
         foreach ($childNodes as $childNode) {
             $removedNode = $this->node->removeChild($childNode);

@@ -21,7 +21,7 @@ class ClassAttribute
     /**
      * @var string[]
      */
-    protected $classes = [];
+    protected $classes = array();
 
     /**
      * @param Element $element
@@ -48,7 +48,7 @@ class ClassAttribute
             // possible if class attribute has been removed
             if ($this->classesString !== '') {
                 $this->classesString = '';
-                $this->classes = [];
+                $this->classes = array();
             }
 
             return;
@@ -65,7 +65,7 @@ class ClassAttribute
         $classesString = trim($this->classesString);
 
         if ($classesString === '') {
-            $this->classes = [];
+            $this->classes = array();
 
             return;
         }
@@ -232,11 +232,11 @@ class ClassAttribute
      *
      * @return ClassAttribute
      */
-    public function removeAll(array $exclusions = [])
+    public function removeAll(array $exclusions = array())
     {
         $this->parseClassAttribute();
 
-        $preservedClasses = [];
+        $preservedClasses = array();
 
         foreach ($exclusions as $className) {
             if ( ! is_string($className)) {

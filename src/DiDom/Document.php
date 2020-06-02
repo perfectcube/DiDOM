@@ -95,7 +95,7 @@ class Document
      *
      * @return Element created element
      */
-    public function createElement($name, $value = null, array $attributes = [])
+    public function createElement($name, $value = null, array $attributes = array())
     {
         $node = $this->document->createElement($name);
 
@@ -113,7 +113,7 @@ class Document
      *
      * @throws InvalidSelectorException
      */
-    public function createElementBySelector($selector, $value = null, array $attributes = [])
+    public function createElementBySelector($selector, $value = null, array $attributes = array())
     {
         $segments = Query::getSegments($selector);
 
@@ -191,7 +191,7 @@ class Document
             $returnArray = false;
         }
 
-        $result = [];
+        $result = array();
 
         foreach ($nodes as $node) {
             if ($node instanceof Element) {
@@ -442,7 +442,7 @@ class Document
 
         $nodeList = $this->createXpath()->query($expression, $contextNode);
 
-        $result = [];
+        $result = array();
 
         if ($wrapNode) {
             foreach ($nodeList as $node) {

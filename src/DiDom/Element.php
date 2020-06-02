@@ -33,7 +33,7 @@ class Element extends Node
      * @param string|null $value The value of an element
      * @param array $attributes The attributes of an element
      */
-    public function __construct($tagName, $value = null, array $attributes = [])
+    public function __construct($tagName, $value = null, array $attributes = array())
     {
         if (is_string($tagName)) {
             $document = new DOMDocument('1.0', 'UTF-8');
@@ -63,7 +63,7 @@ class Element extends Node
      *
      * @return Element
      */
-    public static function create($name, $value = null, array $attributes = [])
+    public static function create($name, $value = null, array $attributes = array())
     {
         return new Element($name, $value, $attributes);
     }
@@ -79,7 +79,7 @@ class Element extends Node
      *
      * @throws InvalidSelectorException
      */
-    public static function createBySelector($selector, $value = null, array $attributes = [])
+    public static function createBySelector($selector, $value = null, array $attributes = array())
     {
         return Document::create()->createElementBySelector($selector, $value, $attributes);
     }
@@ -240,7 +240,7 @@ class Element extends Node
      *
      * @return Element
      */
-    public function removeAllAttributes(array $exclusions = [])
+    public function removeAllAttributes(array $exclusions = array())
     {
         if ( ! $this->node instanceof DOMElement) {
             return $this;
@@ -288,7 +288,7 @@ class Element extends Node
         }
 
         if ($names === null) {
-            $result = [];
+            $result = array();
 
             foreach ($this->node->attributes as $name => $attribute) {
                 $result[$name] = $attribute->value;
@@ -297,7 +297,7 @@ class Element extends Node
             return $result;
         }
 
-        $result = [];
+        $result = array();
 
         foreach ($this->node->attributes as $name => $attribute) {
             if (in_array($name, $names, true)) {

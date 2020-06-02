@@ -19,7 +19,7 @@ class Query
     /**
      * @var array
      */
-    protected static $compiled = [];
+    protected static $compiled = array();
 
     /**
      * Converts a CSS selector into an XPath expression.
@@ -74,7 +74,7 @@ class Query
      */
     public static function cssToXpath($selector, $prefix = '//')
     {
-        $paths = [];
+        $paths = array();
 
         while ($selector !== '') {
             list($xpath, $selector) = static::parseAndConvertSelector($selector, $prefix);
@@ -153,7 +153,7 @@ class Query
             throw new InvalidSelectorException(sprintf('Invalid property "%s"', $selector));
         }
 
-        $result = [];
+        $result = array();
 
         $result['property'] = $matches[0];
         $result['name'] = $matches['name'];
@@ -172,7 +172,7 @@ class Query
      *
      * @throws InvalidSelectorException if the specified property is unknown
      */
-    protected static function convertProperty($name, array $parameters = [])
+    protected static function convertProperty($name, array $parameters = array())
     {
         if ($name === 'text') {
             return 'text()';
@@ -183,7 +183,7 @@ class Query
                 return '@*';
             }
 
-            $attributes = [];
+            $attributes = array();
 
             foreach ($parameters as $attribute) {
                 $attributes[] = sprintf('name() = "%s"', $attribute);
@@ -206,7 +206,7 @@ class Query
      *
      * @throws InvalidSelectorException if the specified pseudo-class is unknown
      */
-    protected static function convertPseudo($pseudo, &$tagName, array $parameters = [])
+    protected static function convertPseudo($pseudo, &$tagName, array $parameters = array())
     {
         switch ($pseudo) {
             case 'first-child':
@@ -278,7 +278,7 @@ class Query
     {
         $tagName = isset($segments['tag']) ? $segments['tag'] : '*';
 
-        $attributes = [];
+        $attributes = array();
 
         // if the id attribute specified
         if (isset($segments['id'])) {

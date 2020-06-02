@@ -21,7 +21,7 @@ class StyleAttribute
     /**
      * @var array
      */
-    protected $properties = [];
+    protected $properties = array();
 
     /**
      * @param Element $element
@@ -48,7 +48,7 @@ class StyleAttribute
             // possible if style attribute has been removed
             if ($this->styleString !== '') {
                 $this->styleString = '';
-                $this->properties = [];
+                $this->properties = array();
             }
 
             return;
@@ -65,7 +65,7 @@ class StyleAttribute
         $styleString = trim($this->styleString, ' ;');
 
         if ($styleString === '') {
-            $this->properties = [];
+            $this->properties = array();
 
             return;
         }
@@ -97,7 +97,7 @@ class StyleAttribute
      */
     protected function buildStyleString()
     {
-        $properties = [];
+        $properties = array();
 
         foreach ($this->properties as $propertyName => $value) {
             $properties[] = $propertyName . ': ' . $value;
@@ -195,7 +195,7 @@ class StyleAttribute
     {
         $this->parseStyleAttribute();
 
-        $result = [];
+        $result = array();
 
         foreach ($propertyNames as $propertyName) {
             if ( ! is_string($propertyName)) {
@@ -287,11 +287,11 @@ class StyleAttribute
      *
      * @return StyleAttribute
      */
-    public function removeAllProperties(array $exclusions = [])
+    public function removeAllProperties(array $exclusions = array())
     {
         $this->parseStyleAttribute();
 
-        $preservedProperties = [];
+        $preservedProperties = array();
 
         foreach ($exclusions as $propertyName) {
             if ( ! is_string($propertyName)) {
